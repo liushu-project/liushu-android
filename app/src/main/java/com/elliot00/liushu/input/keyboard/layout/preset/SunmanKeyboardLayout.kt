@@ -38,8 +38,7 @@ fun SunmanKeyboardLayout(
                     definition = KeyDefinition(
                         appearance = KeyDefinition.Appearance(
                             label = KeyDefinition.Appearance.Label.TextLabel(
-                                text = "心",
-                                textInAscii = "q",
+                                text = "q",
                                 textInCapsLock = "Q",
                                 color = MaterialTheme.colorScheme.onSurface,
                                 style = MaterialTheme.typography.titleLarge,
@@ -58,8 +57,7 @@ fun SunmanKeyboardLayout(
                     definition = KeyDefinition(
                         appearance = KeyDefinition.Appearance(
                             label = KeyDefinition.Appearance.Label.TextLabel(
-                                text = "火",
-                                textInAscii = "w",
+                                text = "w",
                                 textInCapsLock = "W",
                                 color = MaterialTheme.colorScheme.onSurface,
                                 style = MaterialTheme.typography.titleLarge,
@@ -78,8 +76,7 @@ fun SunmanKeyboardLayout(
                     definition = KeyDefinition(
                         appearance = KeyDefinition.Appearance(
                             label = KeyDefinition.Appearance.Label.TextLabel(
-                                text = "体",
-                                textInAscii = "e",
+                                text = "e",
                                 textInCapsLock = "E",
                                 color = MaterialTheme.colorScheme.onSurface,
                                 style = MaterialTheme.typography.titleLarge,
@@ -98,8 +95,7 @@ fun SunmanKeyboardLayout(
                     definition = KeyDefinition(
                         appearance = KeyDefinition.Appearance(
                             label = KeyDefinition.Appearance.Label.TextLabel(
-                                text = "人",
-                                textInAscii = "r",
+                                text = "r",
                                 textInCapsLock = "R",
                                 color = MaterialTheme.colorScheme.onSurface,
                                 style = MaterialTheme.typography.titleLarge,
@@ -118,8 +114,7 @@ fun SunmanKeyboardLayout(
                     definition = KeyDefinition(
                         appearance = KeyDefinition.Appearance(
                             label = KeyDefinition.Appearance.Label.TextLabel(
-                                text = "土",
-                                textInAscii = "t",
+                                text = "t",
                                 textInCapsLock = "T",
                                 color = MaterialTheme.colorScheme.onSurface,
                                 style = MaterialTheme.typography.titleLarge,
@@ -138,8 +133,7 @@ fun SunmanKeyboardLayout(
                     definition = KeyDefinition(
                         appearance = KeyDefinition.Appearance(
                             label = KeyDefinition.Appearance.Label.TextLabel(
-                                text = "衣",
-                                textInAscii = "y",
+                                text = "y",
                                 textInCapsLock = "Y",
                                 color = MaterialTheme.colorScheme.onSurface,
                                 style = MaterialTheme.typography.titleLarge,
@@ -158,8 +152,7 @@ fun SunmanKeyboardLayout(
                     definition = KeyDefinition(
                         appearance = KeyDefinition.Appearance(
                             label = KeyDefinition.Appearance.Label.TextLabel(
-                                text = "食",
-                                textInAscii = "u",
+                                text = "u",
                                 textInCapsLock = "U",
                                 color = MaterialTheme.colorScheme.onSurface,
                                 style = MaterialTheme.typography.titleLarge,
@@ -178,8 +171,7 @@ fun SunmanKeyboardLayout(
                     definition = KeyDefinition(
                         appearance = KeyDefinition.Appearance(
                             label = KeyDefinition.Appearance.Label.TextLabel(
-                                text = "言",
-                                textInAscii = "i",
+                                text = "i",
                                 textInCapsLock = "I",
                                 color = MaterialTheme.colorScheme.onSurface,
                                 style = MaterialTheme.typography.titleLarge,
@@ -198,8 +190,7 @@ fun SunmanKeyboardLayout(
                     definition = KeyDefinition(
                         appearance = KeyDefinition.Appearance(
                             label = KeyDefinition.Appearance.Label.TextLabel(
-                                text = "口",
-                                textInAscii = "o",
+                                text = "o",
                                 textInCapsLock = "O",
                                 color = MaterialTheme.colorScheme.onSurface,
                                 style = MaterialTheme.typography.titleLarge,
@@ -218,8 +209,7 @@ fun SunmanKeyboardLayout(
                     definition = KeyDefinition(
                         appearance = KeyDefinition.Appearance(
                             label = KeyDefinition.Appearance.Label.TextLabel(
-                                text = "撇",
-                                textInAscii = "p",
+                                text = "p",
                                 textInCapsLock = "P",
                                 color = MaterialTheme.colorScheme.onSurface,
                                 style = MaterialTheme.typography.titleLarge,
@@ -241,8 +231,7 @@ fun SunmanKeyboardLayout(
                     definition = KeyDefinition(
                         appearance = KeyDefinition.Appearance(
                             label = KeyDefinition.Appearance.Label.TextLabel(
-                                text = "住",
-                                textInAscii = "a",
+                                text = "a",
                                 textInCapsLock = "A",
                                 color = MaterialTheme.colorScheme.onSurface,
                                 style = MaterialTheme.typography.titleLarge,
@@ -261,8 +250,7 @@ fun SunmanKeyboardLayout(
                     definition = KeyDefinition(
                         appearance = KeyDefinition.Appearance(
                             label = KeyDefinition.Appearance.Label.TextLabel(
-                                text = "水",
-                                textInAscii = "s",
+                                text = "s",
                                 textInCapsLock = "S",
                                 color = MaterialTheme.colorScheme.onSurface,
                                 style = MaterialTheme.typography.titleLarge,
@@ -281,8 +269,7 @@ fun SunmanKeyboardLayout(
                     definition = KeyDefinition(
                         appearance = KeyDefinition.Appearance(
                             label = KeyDefinition.Appearance.Label.TextLabel(
-                                text = "月",
-                                textInAscii = "d",
+                                text = "d",
                                 textInCapsLock = "D",
                                 color = MaterialTheme.colorScheme.onSurface,
                                 style = MaterialTheme.typography.titleLarge,
@@ -301,8 +288,7 @@ fun SunmanKeyboardLayout(
                     definition = KeyDefinition(
                         appearance = KeyDefinition.Appearance(
                             label = KeyDefinition.Appearance.Label.TextLabel(
-                                text = "手",
-                                textInAscii = "f",
+                                text = "f",
                                 textInCapsLock = "F",
                                 color = MaterialTheme.colorScheme.onSurface,
                                 style = MaterialTheme.typography.titleLarge,
@@ -321,8 +307,7 @@ fun SunmanKeyboardLayout(
                     definition = KeyDefinition(
                         appearance = KeyDefinition.Appearance(
                             label = KeyDefinition.Appearance.Label.TextLabel(
-                                text = "财",
-                                textInAscii = "g",
+                                text = "g",
                                 textInCapsLock = "G",
                                 color = MaterialTheme.colorScheme.onSurface,
                                 style = MaterialTheme.typography.titleLarge,
@@ -341,8 +326,7 @@ fun SunmanKeyboardLayout(
                     definition = KeyDefinition(
                         appearance = KeyDefinition.Appearance(
                             label = KeyDefinition.Appearance.Label.TextLabel(
-                                text = "横",
-                                textInAscii = "h",
+                                text = "h",
                                 textInCapsLock = "H",
                                 color = MaterialTheme.colorScheme.onSurface,
                                 style = MaterialTheme.typography.titleLarge,
@@ -361,8 +345,7 @@ fun SunmanKeyboardLayout(
                     definition = KeyDefinition(
                         appearance = KeyDefinition.Appearance(
                             label = KeyDefinition.Appearance.Label.TextLabel(
-                                text = "金",
-                                textInAscii = "j",
+                                text = "j",
                                 textInCapsLock = "J",
                                 color = MaterialTheme.colorScheme.onSurface,
                                 style = MaterialTheme.typography.titleLarge,
@@ -381,8 +364,7 @@ fun SunmanKeyboardLayout(
                     definition = KeyDefinition(
                         appearance = KeyDefinition.Appearance(
                             label = KeyDefinition.Appearance.Label.TextLabel(
-                                text = "虫",
-                                textInAscii = "k",
+                                text = "k",
                                 textInCapsLock = "K",
                                 color = MaterialTheme.colorScheme.onSurface,
                                 style = MaterialTheme.typography.titleLarge,
@@ -401,8 +383,7 @@ fun SunmanKeyboardLayout(
                     definition = KeyDefinition(
                         appearance = KeyDefinition.Appearance(
                             label = KeyDefinition.Appearance.Label.TextLabel(
-                                text = "行",
-                                textInAscii = "l",
+                                text = "l",
                                 textInCapsLock = "L",
                                 color = MaterialTheme.colorScheme.onSurface,
                                 style = MaterialTheme.typography.titleLarge,
@@ -444,8 +425,7 @@ fun SunmanKeyboardLayout(
                     definition = KeyDefinition(
                         appearance = KeyDefinition.Appearance(
                             label = KeyDefinition.Appearance.Label.TextLabel(
-                                text = "折",
-                                textInAscii = "z",
+                                text = "z",
                                 textInCapsLock = "Z",
                                 color = MaterialTheme.colorScheme.onSurface,
                                 style = MaterialTheme.typography.titleLarge,
@@ -464,8 +444,7 @@ fun SunmanKeyboardLayout(
                     definition = KeyDefinition(
                         appearance = KeyDefinition.Appearance(
                             label = KeyDefinition.Appearance.Label.TextLabel(
-                                text = "叉",
-                                textInAscii = "x",
+                                text = "x",
                                 textInCapsLock = "X",
                                 color = MaterialTheme.colorScheme.onSurface,
                                 style = MaterialTheme.typography.titleLarge,
@@ -484,8 +463,7 @@ fun SunmanKeyboardLayout(
                     definition = KeyDefinition(
                         appearance = KeyDefinition.Appearance(
                             label = KeyDefinition.Appearance.Label.TextLabel(
-                                text = "草",
-                                textInAscii = "c",
+                                text = "c",
                                 textInCapsLock = "C",
                                 color = MaterialTheme.colorScheme.onSurface,
                                 style = MaterialTheme.typography.titleLarge,
@@ -504,8 +482,7 @@ fun SunmanKeyboardLayout(
                     definition = KeyDefinition(
                         appearance = KeyDefinition.Appearance(
                             label = KeyDefinition.Appearance.Label.TextLabel(
-                                text = "八",
-                                textInAscii = "v",
+                                text = "v",
                                 textInCapsLock = "V",
                                 color = MaterialTheme.colorScheme.onSurface,
                                 style = MaterialTheme.typography.titleLarge,
@@ -524,8 +501,7 @@ fun SunmanKeyboardLayout(
                     definition = KeyDefinition(
                         appearance = KeyDefinition.Appearance(
                             label = KeyDefinition.Appearance.Label.TextLabel(
-                                text = "日",
-                                textInAscii = "b",
+                                text = "b",
                                 textInCapsLock = "B",
                                 color = MaterialTheme.colorScheme.onSurface,
                                 style = MaterialTheme.typography.titleLarge,
@@ -544,8 +520,7 @@ fun SunmanKeyboardLayout(
                     definition = KeyDefinition(
                         appearance = KeyDefinition.Appearance(
                             label = KeyDefinition.Appearance.Label.TextLabel(
-                                text = "民",
-                                textInAscii = "n",
+                                text = "n",
                                 textInCapsLock = "N",
                                 color = MaterialTheme.colorScheme.onSurface,
                                 style = MaterialTheme.typography.titleLarge,
@@ -564,8 +539,7 @@ fun SunmanKeyboardLayout(
                     definition = KeyDefinition(
                         appearance = KeyDefinition.Appearance(
                             label = KeyDefinition.Appearance.Label.TextLabel(
-                                text = "木",
-                                textInAscii = "m",
+                                text = "m",
                                 textInCapsLock = "M",
                                 color = MaterialTheme.colorScheme.onSurface,
                                 style = MaterialTheme.typography.titleLarge,
