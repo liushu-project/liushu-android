@@ -55,10 +55,8 @@ cargo {
     libname = 'liushu_ffi'
     profile = 'release'
     targets = [
-            'arm',
             'arm64',
             'x86_64',
-            'x86',
     ]
     targetDirectory = './src/main/rust/liushu/target'
 }

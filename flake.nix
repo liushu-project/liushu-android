@@ -27,8 +27,6 @@
               (pkgs.rust-bin.stable."1.71.1".default.override {
                 extensions = [ "rust-src" ];
                 targets = [
-                  "armv7-linux-androideabi"
-                  "i686-linux-android"
                   "x86_64-linux-android"
                   "aarch64-linux-android"
                 ];
