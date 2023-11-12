@@ -87,7 +87,7 @@ fun GeneralKeyboard(
                                 }
 
                                 else -> {
-                                    { }
+                                    null
                                 }
                             }
                             Key(
