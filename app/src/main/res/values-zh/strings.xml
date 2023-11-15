@@ -2,4 +2,6 @@
 <resources>
     <string name="app_name">六書輸入法</string>
     <string name="subtype_default">山人全息</string>
+    <string name="enable_keyboard">啓用輸入法</string>
+    <string name="select_input_method">選擇輸入法</string>
 </resources>

@@ -17,16 +17,58 @@
 
 package com.elliot00.liushu
 
+import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.material3.Button
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
+import com.elliot00.liushu.ui.theme.LiushuTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            Text(text = "hello")
+            LiushuTheme {
+                Surface(modifier = Modifier.fillMaxSize()) {
+                    Column(
+                        modifier = Modifier
+                            .statusBarsPadding()
+                            .padding(horizontal = 40.dp)
+                            .safeDrawingPadding(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center,
+                    ) {
+                        val context = LocalContext.current
+                        Button(onClick = {
+                            val intent = Intent(Settings.ACTION_INPUT_METHOD_SETTINGS)
+                            context.startActivity(intent)
+                        }) {
+                            Text(text = getString(R.string.enable_keyboard))
+                        }
+                        Button(onClick = {
+                            val inputMethodManager =
+                                getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                            inputMethodManager.showInputMethodPicker()
+                        }) {
+                            Text(text = getString(R.string.select_input_method))
+                        }
+                    }
+                }
+            }
         }
     }
 }

@@ -3,6 +3,7 @@
 <input-method xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:isDefault="true"
+    android:settingsActivity="com.elliot00.liushu.MainActivity"
     android:supportsSwitchingToNextInputMethod="false">
 
     <subtype
