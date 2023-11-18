@@ -18,6 +18,7 @@
 package com.elliot00.liushu.input
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -35,6 +36,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
@@ -46,19 +49,30 @@ import com.elliot00.liushu.input.keyboard.candidate.CandidateItem
 fun InputScreen(viewModel: InputViewModel = viewModel()) {
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
 
-    val input by viewModel.input.collectAsStateWithLifecycle()
-    if (input.isNotEmpty()) {
-
-        Popup(alignment = Alignment.TopStart, offset = IntOffset(0, -60)) {
-            Text(
-                text = input,
-                modifier = Modifier
-                    .background(color = MaterialTheme.colorScheme.surface)
-                    .padding(horizontal = 8.dp)
-            )
-        }
-    }
     Surface(tonalElevation = 5.dp, modifier = Modifier.height(screenHeight / 3)) {
+        val input by viewModel.input.collectAsStateWithLifecycle()
+        if (input.isNotEmpty()) {
+            val popupHeight = 36.dp
+            val density = LocalDensity.current
+            val offsetY = with(density) {
+                -popupHeight.roundToPx()
+            }
+            Popup(alignment = Alignment.TopStart, offset = IntOffset(0, offsetY)) {
+                Box(
+                    modifier = Modifier
+                        .height(popupHeight)
+                        .padding(horizontal = 8.dp)
+                        .background(MaterialTheme.colorScheme.surface),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = input,
+                        textAlign = TextAlign.Center
+                    )
+                }
+            }
+        }
+
         Column(
             modifier = Modifier.fillMaxWidth()
         ) {
