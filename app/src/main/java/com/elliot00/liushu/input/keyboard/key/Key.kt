@@ -31,7 +31,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,6 +45,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
+import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -56,6 +59,16 @@ fun RowScope.Key(
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
+    val showTooltip = remember { mutableStateOf(false) }
+
+    LaunchedEffect(isPressed) {
+        if (isPressed) {
+            showTooltip.value = true
+            delay(1500)
+        } else {
+            showTooltip.value = false
+        }
+    }
 
     Box(
         modifier = modifier
@@ -85,7 +98,7 @@ fun RowScope.Key(
                     color = appearance.label.color,
                     textAlign = TextAlign.Center
                 )
-                if (isPressed) {
+                if (showTooltip.value) {
                     KeyTooltip {
                         Text(
                             text = text,
