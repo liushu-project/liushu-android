@@ -61,12 +61,12 @@ fun InputScreen(viewModel: InputViewModel = viewModel()) {
                 Box(
                     modifier = Modifier
                         .height(popupHeight)
-                        .padding(horizontal = 8.dp)
                         .background(MaterialTheme.colorScheme.surface),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
                         text = input,
+                        modifier = Modifier.padding(horizontal = 8.dp),
                         textAlign = TextAlign.Center
                     )
                 }
