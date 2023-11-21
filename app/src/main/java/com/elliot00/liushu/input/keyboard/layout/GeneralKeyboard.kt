@@ -25,7 +25,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,7 +33,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.elliot00.liushu.input.CapsLockState
 import com.elliot00.liushu.input.InputViewModel
 import com.elliot00.liushu.input.MainInputAreaContentType
-import com.elliot00.liushu.input.keyboard.key.Key
+import com.elliot00.liushu.input.keyboard.key.ConfigurableKey
 import com.elliot00.liushu.input.keyboard.key.KeyDefinition
 import com.elliot00.liushu.input.keyboard.layout.preset.LayoutDefinition
 
@@ -90,7 +89,7 @@ fun GeneralKeyboard(
                                     null
                                 }
                             }
-                            Key(
+                            ConfigurableKey(
                                 appearance = data.definition.appearance,
                                 showAsciiText = isAsciiMode,
                                 showCapsLockText = capsLockState == CapsLockState.ACTIVATED || capsLockState == CapsLockState.SINGLE_LETTER,
