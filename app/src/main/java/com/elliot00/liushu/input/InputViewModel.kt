@@ -103,7 +103,7 @@ class InputViewModel(
             }
 
             is KeyCode.Space -> {
-                ime.commitText(if (_isAsciiMode.value) " " else "　")
+                ime.commitText(" ")
             }
 
             is KeyCode.Period -> {
