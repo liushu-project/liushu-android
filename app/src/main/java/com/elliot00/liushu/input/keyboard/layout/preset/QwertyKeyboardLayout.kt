@@ -20,15 +20,10 @@ package com.elliot00.liushu.input.keyboard.layout.preset
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -45,6 +40,7 @@ import com.elliot00.liushu.input.keyboard.key.preset.LayoutSwitchKey
 import com.elliot00.liushu.input.keyboard.key.preset.PunctuationKey
 import com.elliot00.liushu.input.keyboard.key.preset.ShiftKey
 import com.elliot00.liushu.input.keyboard.key.preset.SpaceKey
+import com.elliot00.liushu.input.keyboard.row.KeyboardRow
 
 
 @Composable
@@ -178,7 +174,7 @@ fun QwertyKeyboardLayout(
             BackspaceKey(onClick = { viewModel.handleKeyClicked(KeyCode.Delete) })
         }
         KeyboardRow {
-            LayoutSwitchKey(onClick = { onMainContentTypeChange(MainInputAreaContentType.SYMBOLS_PICKER) })
+            LayoutSwitchKey(label = "?123", onClick = { onMainContentTypeChange(MainInputAreaContentType.COMMONLY_USED_SYMBOLS) })
             PunctuationKey(label = VariantKeyLabel(text = "，", textInAscii = ","),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
@@ -191,18 +187,5 @@ fun QwertyKeyboardLayout(
                 onClick = { viewModel.handleKeyClicked(KeyCode.Period) })
             EnterKey(onClick = { viewModel.handleKeyClicked(KeyCode.Enter) })
         }
-    }
-}
-
-@Composable
-private fun ColumnScope.KeyboardRow(content: @Composable (RowScope.() -> Unit)) {
-    Row(
-        modifier = Modifier
-            .weight(1f)
-            .fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(
-            4.dp, Alignment.CenterHorizontally
-        ), verticalAlignment = Alignment.CenterVertically
-    ) {
-        content()
     }
 }

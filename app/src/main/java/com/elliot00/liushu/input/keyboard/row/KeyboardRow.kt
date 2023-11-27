@@ -15,39 +15,28 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.elliot00.liushu.input.keyboard.key.preset
+package com.elliot00.liushu.input.keyboard.row
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.sp
-import com.elliot00.liushu.input.keyboard.key.BaseKey
+import androidx.compose.ui.unit.dp
+
 
 @Composable
-fun RowScope.SpaceKey(
-    onClick: () -> Unit,
-    weight: Float = 3f
-) {
-    BaseKey(
-        onClick = onClick,
+fun ColumnScope.KeyboardRow(content: @Composable (RowScope.() -> Unit)) {
+    Row(
         modifier = Modifier
-            .background(
-                color = MaterialTheme.colorScheme.surface,
-                shape = MaterialTheme.shapes.medium
-            )
-            .clip(shape = MaterialTheme.shapes.medium)
-            .weight(weight),
+            .weight(1f)
+            .fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(
+            4.dp, Alignment.CenterHorizontally
+        ), verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(
-            text = "⎵",
-            color = MaterialTheme.colorScheme.onSurface,
-            fontSize = 28.sp,
-            textAlign = TextAlign.Center
-        )
+        content()
     }
 }

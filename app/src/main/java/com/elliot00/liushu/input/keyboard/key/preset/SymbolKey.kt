@@ -29,24 +29,22 @@ import androidx.compose.ui.unit.sp
 import com.elliot00.liushu.input.keyboard.key.BaseKey
 
 @Composable
-fun RowScope.SpaceKey(
-    onClick: () -> Unit,
-    weight: Float = 3f
+fun RowScope.SymbolKey(
+    symbol: String, onCommit: (symbol: String) -> Unit
 ) {
     BaseKey(
-        onClick = onClick,
-        modifier = Modifier
+        onClick = { onCommit(symbol) }, modifier = Modifier
             .background(
                 color = MaterialTheme.colorScheme.surface,
                 shape = MaterialTheme.shapes.medium
             )
             .clip(shape = MaterialTheme.shapes.medium)
-            .weight(weight),
+            .weight(1f)
     ) {
         Text(
-            text = "⎵",
+            text = symbol,
             color = MaterialTheme.colorScheme.onSurface,
-            fontSize = 28.sp,
+            fontSize = 24.sp,
             textAlign = TextAlign.Center
         )
     }

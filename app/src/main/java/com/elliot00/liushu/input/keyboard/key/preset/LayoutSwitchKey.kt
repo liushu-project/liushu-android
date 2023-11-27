@@ -30,6 +30,7 @@ import com.elliot00.liushu.input.keyboard.key.BaseKey
 
 @Composable
 fun RowScope.LayoutSwitchKey(
+    label: String,
     onClick: () -> Unit
 ) {
 
@@ -44,7 +45,7 @@ fun RowScope.LayoutSwitchKey(
             .weight(1.5f),
     ) {
         Text(
-            text = "?123",
+            text = label,
             color = MaterialTheme.colorScheme.onTertiaryContainer,
             fontSize = 18.sp,
             textAlign = TextAlign.Center

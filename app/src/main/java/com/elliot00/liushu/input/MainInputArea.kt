@@ -22,20 +22,31 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
 import com.elliot00.liushu.input.keyboard.KeyCode
+import com.elliot00.liushu.input.keyboard.layout.preset.CommonlyUsedSymbolKeyboard
 import com.elliot00.liushu.input.keyboard.layout.preset.QwertyKeyboardLayout
 import com.elliot00.liushu.input.picker.EmojisPicker
 import com.elliot00.liushu.input.picker.SymbolsPicker
+import com.elliot00.liushu.service.LiushuInputMethodService
 
 @Composable
 fun MainInputArea(viewModel: InputViewModel) {
-    var contentType by remember { mutableStateOf(MainInputAreaContentType.KEYBOARD) }
-    val onGoBack: () -> Unit = { contentType = MainInputAreaContentType.KEYBOARD }
+    var contentType by remember { mutableStateOf(MainInputAreaContentType.QWERTY_KEYBOARD) }
+    val onGoBack: () -> Unit = { contentType = MainInputAreaContentType.QWERTY_KEYBOARD }
     val onKeyPressed: (KeyCode) -> Unit = { viewModel.handleKeyClicked(it) }
 
     when (contentType) {
-        MainInputAreaContentType.KEYBOARD -> {
+        MainInputAreaContentType.QWERTY_KEYBOARD -> {
             QwertyKeyboardLayout(onMainContentTypeChange = { contentType = it }, viewModel)
+        }
+
+        MainInputAreaContentType.COMMONLY_USED_SYMBOLS -> {
+            CommonlyUsedSymbolKeyboard(
+                onCommit = { viewModel.handleKeyClicked(KeyCode.RawText(it)) },
+                onMainContentTypeChange = { contentType = it },
+                viewModel
+            )
         }
 
         MainInputAreaContentType.EMOJIS_PICKER -> {
@@ -49,5 +60,5 @@ fun MainInputArea(viewModel: InputViewModel) {
 }
 
 enum class MainInputAreaContentType {
-    KEYBOARD, EMOJIS_PICKER, SYMBOLS_PICKER
+    QWERTY_KEYBOARD, COMMONLY_USED_SYMBOLS, EMOJIS_PICKER, SYMBOLS_PICKER
 }
