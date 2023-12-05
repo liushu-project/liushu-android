@@ -49,11 +49,16 @@ var ImeWeakReference = WeakReference<LiushuInputMethodServiceImpl?>(null)
 
 class LiushuInputMethodService : LifecycleInputMethodService(), ViewModelStoreOwner,
     SavedStateRegistryOwner, LiushuInputMethodServiceImpl {
-    val engine: Engine by lazy {
+    lateinit var engine: Engine
+
+    override fun onCreate() {
+        super.onCreate()
+        savedStateRegistryController.performRestore(null)
         val dictDir = "sunman"
         val dictFile = "sunman.trie"
         val path = sequenceOf(filesDir, dictDir, dictFile).joinToString(separator = File.separator)
-        Engine(path)
+        engine = Engine(path)
+        ImeWeakReference = WeakReference(this)
     }
 
     override fun onCreateInputView(): View {
@@ -68,10 +73,9 @@ class LiushuInputMethodService : LifecycleInputMethodService(), ViewModelStoreOw
         return view
     }
 
-    override fun onCreate() {
-        super.onCreate()
-        savedStateRegistryController.performRestore(null)
-        ImeWeakReference = WeakReference(this)
+    override fun onDestroy() {
+        super.onDestroy()
+        engine.close()
     }
 
     override fun commitText(text: String) {
