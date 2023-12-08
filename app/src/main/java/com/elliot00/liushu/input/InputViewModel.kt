@@ -28,7 +28,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 
@@ -42,11 +42,15 @@ class InputViewModel(
     val capsLockState = _capsLockState.asStateFlow()
 
     private var _input = MutableStateFlow("")
-    private var _inputBuffer = MutableStateFlow("")
-    val input =
-        combine(_input, _inputBuffer) { a, b -> a + if (b.isNotEmpty()) " $b" else "" }.stateIn(
-            viewModelScope, SharingStarted.WhileSubscribed(), ""
+    val input = _input.asStateFlow()
+    private var _segmentedInputTokens = MutableStateFlow<List<String>>(emptyList())
+    val formattedInputTokens: StateFlow<String> =
+        _segmentedInputTokens.map { it.joinToString(separator = " ") }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(),
+            initialValue = ""
         )
+
     private var _candidates = MutableStateFlow<List<Candidate>>(emptyList())
     val candidates: StateFlow<List<Candidate>> = _candidates.asStateFlow()
 
@@ -65,23 +69,20 @@ class InputViewModel(
             }
 
             is KeyCode.Enter -> {
-                if (_input.value.isNotEmpty() || _inputBuffer.value.isNotEmpty()) {
-                    ime.commitText(_input.value + _inputBuffer.value)
+                if (_input.value.isNotEmpty()) {
+                    ime.commitText(_input.value)
                     _input.value = ""
-                    _inputBuffer.value = ""
+                    _segmentedInputTokens.value = emptyList()
                 } else {
                     ime.handleEnter()
                 }
             }
 
             is KeyCode.Delete -> {
-                if (_inputBuffer.value.isNotEmpty()) {
-                    _inputBuffer.update { it.dropLast(1) }
-                    return
-                }
                 if (_input.value.isNotEmpty()) {
                     _input.update { it.dropLast(1) }
-                    _candidates.value = ime.search(_input.value)
+                    _segmentedInputTokens.value = ime.getSegmentedInputTokens(_input.value)
+                    _candidates.value = ime.search(_segmentedInputTokens.value[0])
                 } else {
                     ime.handleDelete()
                 }
@@ -125,19 +126,14 @@ class InputViewModel(
     }
 
     fun commitCandidate(candidate: Candidate) {
-        _input.value = ""
-        ime.commitText(candidate.text).also { _candidates.value = emptyList() }
-
-        while (_inputBuffer.value.isNotEmpty()) {
-            val potentialInput = _input.value + _inputBuffer.value.substring(0, 1)
-            val potentialCandidates = ime.search(potentialInput)
-            if (potentialCandidates.isEmpty()) {
-                break
-            }
-
-            _input.value = potentialInput
-            _inputBuffer.update { it.drop(1) }
-            _candidates.value = potentialCandidates
+        _segmentedInputTokens.value = _segmentedInputTokens.value.drop(1)
+        ime.commitText(candidate.text)
+        if (_segmentedInputTokens.value.isEmpty()) {
+            _input.value = ""
+            _candidates.value = emptyList()
+        } else {
+            _input.value = _segmentedInputTokens.value.joinToString(separator = "")
+            _candidates.value = ime.search(_segmentedInputTokens.value[0])
         }
     }
 
@@ -162,19 +158,9 @@ class InputViewModel(
             CapsLockState.DEACTIVATED -> {}
         }
 
-        if (_inputBuffer.value.isNotEmpty()) {
-            _inputBuffer.value += code
-            return
-        }
-
-        val potentialInput = _input.value + code
-        val potentialCandidates = ime.search(potentialInput)
-        if (potentialCandidates.isNotEmpty()) {
-            _input.value = potentialInput
-            _candidates.value = potentialCandidates
-        } else {
-            _inputBuffer.value += code
-        }
+        _input.value += code
+        _segmentedInputTokens.value = ime.getSegmentedInputTokens(_input.value)
+        _candidates.value = ime.search(_segmentedInputTokens.value[0])
     }
 }
 

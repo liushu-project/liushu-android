@@ -43,6 +43,7 @@ interface LiushuInputMethodServiceImpl {
     fun search(code: String): List<Candidate>
     fun handleEnter()
     fun handleDelete()
+    fun getSegmentedInputTokens(input: String): List<String>
 }
 
 var ImeWeakReference = WeakReference<LiushuInputMethodServiceImpl?>(null)
@@ -94,6 +95,10 @@ class LiushuInputMethodService : LifecycleInputMethodService(), ViewModelStoreOw
         sendDownUpKeyEvents(KeyEvent.KEYCODE_DEL)
     }
 
+    override fun getSegmentedInputTokens(input: String): List<String> {
+        return engine.segment(input)
+    }
+
     override val viewModelStore: ViewModelStore
         get() = store
     override val lifecycle: Lifecycle
@@ -129,4 +134,8 @@ class UselessLiushuInputMethodService : LiushuInputMethodServiceImpl {
     override fun handleEnter() {}
 
     override fun handleDelete() {}
+
+    override fun getSegmentedInputTokens(input: String): List<String> {
+        return emptyList()
+    }
 }

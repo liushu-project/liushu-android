@@ -43,6 +43,7 @@ class InputViewModelTest {
     @Test
     fun inputViewModel_DeleteWithNotEmptyCandidates_InputCleared() {
         every { mockIme.search(any()) } returns emptyList()
+        every { mockIme.getSegmentedInputTokens(any()) } returns listOf("a")
         viewModel.handleKeyClicked(KeyCode.Alpha("a"))
 
         viewModel.handleKeyClicked(KeyCode.Delete)
@@ -65,6 +66,7 @@ class InputViewModelTest {
     @Test
     fun inputViewModel_EnterWithNonEmptyInput_TextCommittedAndInputCleared() {
         every { mockIme.search(any()) } returns emptyList()
+        every { mockIme.getSegmentedInputTokens(any()) } returns listOf("a")
         viewModel.handleKeyClicked(KeyCode.Alpha("a"))
 
         every { mockIme.commitText(any()) } just Runs
