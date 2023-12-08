@@ -80,7 +80,7 @@ class LiushuInputMethodService : LifecycleInputMethodService(), ViewModelStoreOw
     }
 
     override fun commitText(text: String) {
-        currentInputConnection.commitText(text, text.length)
+        currentInputConnection.commitText(text, 1)
     }
 
     override fun search(code: String): List<Candidate> {
