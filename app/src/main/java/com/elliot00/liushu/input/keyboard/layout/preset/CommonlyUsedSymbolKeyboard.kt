@@ -17,21 +17,25 @@
 
 package com.elliot00.liushu.input.keyboard.layout.preset
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.elliot00.liushu.input.InputViewModel
 import com.elliot00.liushu.input.MainInputAreaContentType
 import com.elliot00.liushu.input.keyboard.KeyCode
+import com.elliot00.liushu.input.keyboard.key.BaseKey
 import com.elliot00.liushu.input.keyboard.key.preset.BackspaceKey
 import com.elliot00.liushu.input.keyboard.key.preset.EnterKey
 import com.elliot00.liushu.input.keyboard.key.preset.LayoutSwitchKey
-import com.elliot00.liushu.input.keyboard.key.preset.ShiftKey
 import com.elliot00.liushu.input.keyboard.key.preset.SpaceKey
 import com.elliot00.liushu.input.keyboard.key.preset.SymbolKey
 import com.elliot00.liushu.input.keyboard.row.KeyboardRow
@@ -75,7 +79,18 @@ fun CommonlyUsedSymbolKeyboard(
             Box(modifier = Modifier.weight(0.5f))
         }
         KeyboardRow {
-            ShiftKey(onClick = { viewModel.handleKeyClicked(KeyCode.Shift) })
+            BaseKey(
+                onClick = { onMainContentTypeChange(MainInputAreaContentType.SYMBOLS_PICKER) },
+                modifier = Modifier
+                    .background(
+                        color = MaterialTheme.colorScheme.secondaryContainer,
+                        shape = MaterialTheme.shapes.medium
+                    )
+                    .clip(shape = MaterialTheme.shapes.medium)
+                    .weight(1.5f),
+            ) {
+                Text(text = "=\\<")
+            }
             SymbolKey(symbol = "@", onCommit = onCommit)
             SymbolKey(symbol = "…", onCommit = onCommit)
             SymbolKey(symbol = "～", onCommit = onCommit)
