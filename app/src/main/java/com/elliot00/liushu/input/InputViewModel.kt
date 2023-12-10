@@ -82,7 +82,7 @@ class InputViewModel(
                 if (_input.value.isNotEmpty()) {
                     _input.update { it.dropLast(1) }
                     _segmentedInputTokens.value = ime.getSegmentedInputTokens(_input.value)
-                    _candidates.value = ime.search(_segmentedInputTokens.value[0])
+                    _candidates.value = ime.search(_segmentedInputTokens.value.getOrElse(0) { "" })
                 } else {
                     ime.handleDelete()
                 }
@@ -133,7 +133,7 @@ class InputViewModel(
             _candidates.value = emptyList()
         } else {
             _input.value = _segmentedInputTokens.value.joinToString(separator = "")
-            _candidates.value = ime.search(_segmentedInputTokens.value[0])
+            _candidates.value = ime.search(_segmentedInputTokens.value.getOrElse(0) { "" })
         }
     }
 
@@ -160,7 +160,7 @@ class InputViewModel(
 
         _input.value += code
         _segmentedInputTokens.value = ime.getSegmentedInputTokens(_input.value)
-        _candidates.value = ime.search(_segmentedInputTokens.value[0])
+        _candidates.value = ime.search(_segmentedInputTokens.value.getOrElse(0) { "" })
     }
 }
 
