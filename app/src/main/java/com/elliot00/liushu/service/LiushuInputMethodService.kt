@@ -20,8 +20,6 @@ package com.elliot00.liushu.service
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.AbstractComposeView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.ViewModelStoreOwner
@@ -31,12 +29,10 @@ import androidx.savedstate.SavedStateRegistry
 import androidx.savedstate.SavedStateRegistryController
 import androidx.savedstate.SavedStateRegistryOwner
 import androidx.savedstate.setViewTreeSavedStateRegistryOwner
-import com.elliot00.liushu.input.InputScreen
-import com.elliot00.liushu.ui.theme.LiushuTheme
+import com.elliot00.liushu.input.InputView
 import com.elliot00.liushu.uniffi.Candidate
 import com.elliot00.liushu.uniffi.Engine
 import java.io.File
-import java.lang.ref.WeakReference
 
 interface LiushuInputMethodServiceImpl {
     fun commitText(text: String)
@@ -45,8 +41,6 @@ interface LiushuInputMethodServiceImpl {
     fun handleDelete()
     fun getSegmentedInputTokens(input: String): List<String>
 }
-
-var ImeWeakReference = WeakReference<LiushuInputMethodServiceImpl?>(null)
 
 class LiushuInputMethodService : LifecycleInputMethodService(), ViewModelStoreOwner,
     SavedStateRegistryOwner, LiushuInputMethodServiceImpl {
@@ -59,11 +53,10 @@ class LiushuInputMethodService : LifecycleInputMethodService(), ViewModelStoreOw
         val dictFile = "sunman.trie"
         val path = sequenceOf(filesDir, dictDir, dictFile).joinToString(separator = File.separator)
         engine = Engine(path)
-        ImeWeakReference = WeakReference(this)
     }
 
     override fun onCreateInputView(): View {
-        val view = InputView()
+        val view = InputView(this)
 
         window?.window?.decorView?.let { decorView ->
             decorView.setViewTreeLifecycleOwner(this)
@@ -75,8 +68,8 @@ class LiushuInputMethodService : LifecycleInputMethodService(), ViewModelStoreOw
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         engine.close()
+        super.onDestroy()
     }
 
     override fun commitText(text: String) {
@@ -113,29 +106,4 @@ class LiushuInputMethodService : LifecycleInputMethodService(), ViewModelStoreOw
     private val savedStateRegistryController = SavedStateRegistryController.create(this)
 
     override val savedStateRegistry: SavedStateRegistry get() = savedStateRegistryController.savedStateRegistry
-
-    private inner class InputView : AbstractComposeView(this) {
-        @Composable
-        override fun Content() {
-            LiushuTheme {
-                InputScreen()
-            }
-        }
-    }
-}
-
-class UselessLiushuInputMethodService : LiushuInputMethodServiceImpl {
-    override fun commitText(text: String) {}
-
-    override fun search(code: String): List<Candidate> {
-        return emptyList()
-    }
-
-    override fun handleEnter() {}
-
-    override fun handleDelete() {}
-
-    override fun getSegmentedInputTokens(input: String): List<String> {
-        return emptyList()
-    }
 }

@@ -20,9 +20,7 @@ package com.elliot00.liushu.input
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elliot00.liushu.input.keyboard.KeyCode
-import com.elliot00.liushu.service.ImeWeakReference
 import com.elliot00.liushu.service.LiushuInputMethodServiceImpl
-import com.elliot00.liushu.service.UselessLiushuInputMethodService
 import com.elliot00.liushu.uniffi.Candidate
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -33,8 +31,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 
 class InputViewModel(
-    private val ime: LiushuInputMethodServiceImpl = ImeWeakReference.get()
-        ?: UselessLiushuInputMethodService()
+    private val ime: LiushuInputMethodServiceImpl
 ) : ViewModel() {
     private var _isAsciiMode = MutableStateFlow(false)
     val isAsciiMode: StateFlow<Boolean> = _isAsciiMode.asStateFlow()
