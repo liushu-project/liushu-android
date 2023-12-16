@@ -57,7 +57,7 @@ fun GeneralPicker(
     onKeyPressed: (KeyCode) -> Unit,
     onGoBack: () -> Unit
 ) {
-    val pagerState = rememberPagerState(initialPage = 0)
+    val pagerState = rememberPagerState(initialPage = 0, pageCount = { symbolsData.size })
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -67,7 +67,7 @@ fun GeneralPicker(
                 .fillMaxWidth()
                 .weight(1f)
         ) {
-            HorizontalPager(state = pagerState, pageCount = symbolsData.size) { page ->
+            HorizontalPager(state = pagerState) { page ->
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(10),
                 ) {
