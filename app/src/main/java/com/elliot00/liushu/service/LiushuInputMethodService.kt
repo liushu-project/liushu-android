@@ -17,6 +17,7 @@
 
 package com.elliot00.liushu.service
 
+import android.text.InputType
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -81,7 +82,12 @@ class LiushuInputMethodService : LifecycleInputMethodService(), ViewModelStoreOw
     }
 
     override fun handleEnter() {
-        currentInputConnection.performEditorAction(EditorInfo.IME_ACTION_GO)
+        val inputType = currentInputEditorInfo.inputType
+        if ((inputType and InputType.TYPE_TEXT_FLAG_MULTI_LINE) != 0) {
+            commitText("\n")
+        } else {
+            currentInputConnection.performEditorAction(EditorInfo.IME_ACTION_GO)
+        }
     }
 
     override fun handleDelete() {
