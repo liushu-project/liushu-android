@@ -43,9 +43,7 @@ class InputViewModel(
     private var _segmentedInputTokens = MutableStateFlow<List<String>>(emptyList())
     val formattedInputTokens: StateFlow<String> =
         _segmentedInputTokens.map { it.joinToString(separator = " ") }.stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(),
-            initialValue = ""
+            scope = viewModelScope, started = SharingStarted.WhileSubscribed(), initialValue = ""
         )
 
     private var _candidates = MutableStateFlow<List<Candidate>>(emptyList())
@@ -135,11 +133,6 @@ class InputViewModel(
     }
 
     private fun handleValidAlphaKey(code: String) {
-        if (_isAsciiMode.value) {
-            ime.commitText(code)
-            return
-        }
-
         when (_capsLockState.value) {
             CapsLockState.ACTIVATED -> {
                 ime.commitText(code.uppercase())
@@ -153,6 +146,11 @@ class InputViewModel(
             }
 
             CapsLockState.DEACTIVATED -> {}
+        }
+
+        if (_isAsciiMode.value) {
+            ime.commitText(code)
+            return
         }
 
         _input.value += code
