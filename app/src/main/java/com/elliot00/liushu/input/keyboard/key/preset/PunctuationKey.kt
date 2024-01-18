@@ -24,7 +24,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import com.elliot00.liushu.input.keyboard.key.Key
@@ -40,21 +39,15 @@ fun RowScope.PunctuationKey(
         else -> label.text
     }
 
-    Key(onClick = onClick, onLongClick = null, modifier = Modifier
-        .background(
-            color = MaterialTheme.colorScheme.secondaryContainer, shape = MaterialTheme.shapes.medium
-        )
-        .clip(shape = MaterialTheme.shapes.medium)
-        .weight(1f), popupContent = {
-        Text(
-            text = text,
-            style = TextStyle(
-                color = MaterialTheme.colorScheme.onSecondaryContainer,
-                fontSize = 32.sp
-            ),
-            textAlign = TextAlign.Center
-        )
-    }) {
+    Key(
+        onClick = onClick, onLongClick = null, modifier = Modifier
+            .background(
+                color = MaterialTheme.colorScheme.secondaryContainer,
+                shape = MaterialTheme.shapes.medium
+            )
+            .clip(shape = MaterialTheme.shapes.medium)
+            .weight(1f)
+    ) {
         Text(
             text = text,
             color = MaterialTheme.colorScheme.onSecondaryContainer,
