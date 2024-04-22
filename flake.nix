@@ -24,7 +24,7 @@
         devShells = {
           default = mkShell {
             buildInputs = [
-              (pkgs.rust-bin.stable."1.71.1".default.override {
+              (pkgs.rust-bin.stable."1.75.0".default.override {
                 extensions = [ "rust-src" ];
                 targets = [
                   "x86_64-linux-android"
