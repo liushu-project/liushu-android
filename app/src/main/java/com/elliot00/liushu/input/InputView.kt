@@ -19,14 +19,12 @@ package com.elliot00.liushu.input
 
 import android.content.Context
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material3.Divider
 import androidx.compose.material3.Surface
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -75,11 +73,7 @@ private fun InputScreen(viewModel: InputViewModel) {
                         candidate = candidate,
                         onClick = { viewModel.commitCandidate(candidate) })
                     if (index < candidates.lastIndex) {
-                        Divider(
-                            modifier = Modifier
-                                .fillMaxHeight(0.6f)
-                                .width(1.dp)
-                        )
+                        VerticalDivider(modifier = Modifier.fillParentMaxHeight(0.6f))
                     }
                 }
             }
