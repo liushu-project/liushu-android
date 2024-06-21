@@ -29,6 +29,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import timber.log.Timber
 
 class InputViewModel(
     private val ime: LiushuInputMethodServiceImpl
@@ -156,6 +157,11 @@ class InputViewModel(
         _input.value += code
         _segmentedInputTokens.value = ime.getSegmentedInputTokens(_input.value)
         _candidates.value = ime.search(_segmentedInputTokens.value.getOrElse(0) { "" })
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        Timber.d("InputViewModel onCleared")
     }
 }
 

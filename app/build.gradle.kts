@@ -1,8 +1,10 @@
 plugins {
+    id("org.mozilla.rust-android-gradle.rust-android")
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("org.mozilla.rust-android-gradle.rust-android") version "0.9.3"
 }
+
+apply(plugin = "org.mozilla.rust-android-gradle.rust-android")
 
 android {
     namespace = "com.elliot00.liushu"
@@ -80,6 +82,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.service)
+    implementation(libs.timber)
     testImplementation(libs.junit)
     testImplementation(libs.mockk.android)
     testImplementation(libs.mockk.agent)

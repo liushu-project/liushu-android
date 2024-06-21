@@ -18,12 +18,16 @@
 package com.elliot00.liushu
 
 import android.app.Application
+import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
 
 class LiushuApplication : Application() {
     override fun onCreate() {
         super.onCreate()
+
+        Timber.plant(Timber.DebugTree())
+
         val dictDir = File(filesDir, "sunman")
 
         if (!dictDir.exists()) {

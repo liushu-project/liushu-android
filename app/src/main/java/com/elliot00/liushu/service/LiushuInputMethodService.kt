@@ -33,6 +33,7 @@ import androidx.savedstate.setViewTreeSavedStateRegistryOwner
 import com.elliot00.liushu.input.InputView
 import com.elliot00.liushu.uniffi.Candidate
 import com.elliot00.liushu.uniffi.Engine
+import timber.log.Timber
 import java.io.File
 
 interface LiushuInputMethodServiceImpl {
@@ -49,6 +50,7 @@ class LiushuInputMethodService : LifecycleInputMethodService(), ViewModelStoreOw
 
     override fun onCreate() {
         super.onCreate()
+        Timber.d("InputMethodService onCreate")
         savedStateRegistryController.performRestore(null)
         val dictDir = "sunman"
         val dictFile = "sunman.trie"
@@ -56,7 +58,13 @@ class LiushuInputMethodService : LifecycleInputMethodService(), ViewModelStoreOw
         engine = Engine(path)
     }
 
+    override fun onStartInput(attribute: EditorInfo?, restarting: Boolean) {
+        super.onStartInput(attribute, restarting)
+        Timber.d("Input starting")
+    }
+
     override fun onCreateInputView(): View {
+        Timber.d("Creating input view")
         val view = InputView(this)
 
         window?.window?.decorView?.let { decorView ->
@@ -66,6 +74,11 @@ class LiushuInputMethodService : LifecycleInputMethodService(), ViewModelStoreOw
         }
 
         return view
+    }
+
+    override fun onFinishInput() {
+        super.onFinishInput()
+        Timber.d("Input finishing")
     }
 
     override fun onDestroy() {

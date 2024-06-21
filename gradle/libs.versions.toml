@@ -1,6 +1,6 @@
 [versions]
 activityCompose = "1.9.0"
-agp = "8.2.2"
+agp = "8.5.0"
 composeBom = "2024.04.01"
 coreKtx = "1.13.0"
 espressoCore = "3.5.1"
@@ -13,7 +13,8 @@ lifecycleRuntimeKtx = "2.7.0"
 lifecycleService = "2.7.0"
 lifecycleViewmodelCompose = "2.7.0"
 mockk = "1.13.7"
-rustAndroidGradlePlugin = "0.9.3"
+rustAndroidGradlePlugin = "0.9.4"
+timber = "5.0.1"
 
 [libraries]
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
@@ -36,6 +37,7 @@ jna = { module = "net.java.dev.jna:jna", version.ref = "jna" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 mockk-agent = { group = "io.mockk", name = "mockk-agent", version.ref = "mockk" }
 mockk-android = { group = "io.mockk", name = "mockk-android", version.ref = "mockk" }
+timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
