@@ -26,58 +26,68 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Surface
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.AbstractComposeView
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.elliot00.liushu.input.feedback.InputTokensPopup
+import com.elliot00.liushu.input.keyboard.KeyCode
 import com.elliot00.liushu.input.keyboard.candidate.CandidateItem
-import com.elliot00.liushu.service.LiushuInputMethodServiceImpl
+import com.elliot00.liushu.service.LiushuInputMethodService
+import com.elliot00.liushu.service.data.InputViewState
 import com.elliot00.liushu.ui.theme.LiushuTheme
+import com.elliot00.liushu.uniffi.Candidate
 
 
 class InputView(context: Context) : AbstractComposeView(context) {
-    private val viewModel = InputViewModel(context as LiushuInputMethodServiceImpl)
-
     @Composable
     override fun Content() {
         LiushuTheme {
-            InputScreen(viewModel)
+            val service = context as LiushuInputMethodService
+            val state by service.state.collectAsState()
+
+            InputScreen(
+                state = state,
+                onPressKey = service::handleKeyClicked,
+                onCommitCandidate = service::commitCandidate
+            )
         }
     }
 }
 
 @Composable
-private fun InputScreen(viewModel: InputViewModel) {
+private fun InputScreen(
+    state: InputViewState,
+    onPressKey: (KeyCode) -> Unit,
+    onCommitCandidate: (Candidate) -> Unit
+) {
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
 
     Surface(tonalElevation = 5.dp, modifier = Modifier.height(screenHeight / 3)) {
-        val formattedInputTokens by viewModel.formattedInputTokens.collectAsStateWithLifecycle()
-        InputTokensPopup(formattedInputTokens)
+        InputTokensPopup(state.segmentedTokens.joinToString(separator = " "))
 
         Column(
             modifier = Modifier.fillMaxWidth()
         ) {
-            val candidates by viewModel.candidates.collectAsStateWithLifecycle()
             LazyRow(
                 modifier = Modifier
                     .height(40.dp)
                     .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                itemsIndexed(candidates) { index, candidate ->
+                itemsIndexed(state.candidates) { index, candidate ->
                     CandidateItem(
                         candidate = candidate,
-                        onClick = { viewModel.commitCandidate(candidate) })
-                    if (index < candidates.lastIndex) {
+                        onClick = { onCommitCandidate(candidate) })
+                    if (index < state.candidates.lastIndex) {
                         VerticalDivider(modifier = Modifier.fillParentMaxHeight(0.6f))
                     }
                 }
             }
-            MainInputArea(viewModel = viewModel)
+            MainInputArea(state = state, onKeyPressed = onPressKey)
         }
     }
 }

@@ -17,14 +17,14 @@
 
 package com.elliot00.liushu.input.keyboard
 
-sealed class KeyCode {
-    data class Alpha(val code: String) : KeyCode()
-    data class RawText(val text: String) : KeyCode()
-    object Delete : KeyCode()
-    object Shift : KeyCode()
-    object Comma : KeyCode()
-    object Period : KeyCode()
-    object Space : KeyCode()
-    object Enter : KeyCode()
-    object AsciiModeSwitch : KeyCode()
+sealed interface KeyCode {
+    data class Alpha(val code: String) : KeyCode
+    data class RawText(val text: String) : KeyCode
+    data object Delete : KeyCode
+    data object Shift : KeyCode
+    data object Comma : KeyCode
+    data object Period : KeyCode
+    data object Space : KeyCode
+    data object Enter : KeyCode
+    data object AsciiModeSwitch : KeyCode
 }

@@ -29,7 +29,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import com.elliot00.liushu.input.InputViewModel
 import com.elliot00.liushu.input.MainInputAreaContentType
 import com.elliot00.liushu.input.keyboard.KeyCode
 import com.elliot00.liushu.input.keyboard.key.BaseKey
@@ -44,7 +43,7 @@ import com.elliot00.liushu.input.keyboard.row.KeyboardRow
 fun CommonlyUsedSymbolKeyboard(
     onCommit: (symbol: String) -> Unit,
     onMainContentTypeChange: (MainInputAreaContentType) -> Unit,
-    viewModel: InputViewModel
+    onKeyPressed: (KeyCode) -> Unit,
 ) {
     Column(
         Modifier
@@ -98,16 +97,16 @@ fun CommonlyUsedSymbolKeyboard(
             SymbolKey(symbol = "？", onCommit = onCommit)
             SymbolKey(symbol = "！", onCommit = onCommit)
             SymbolKey(symbol = ".", onCommit = onCommit)
-            BackspaceKey(onClick = { viewModel.handleKeyClicked(KeyCode.Delete) })
+            BackspaceKey(onClick = { onKeyPressed(KeyCode.Delete) })
         }
         KeyboardRow {
             LayoutSwitchKey(
                 label = "abc",
                 onClick = { onMainContentTypeChange(MainInputAreaContentType.QWERTY_KEYBOARD) })
             SymbolKey(symbol = "，︀", onCommit = onCommit)
-            SpaceKey(onClick = { viewModel.handleKeyClicked(KeyCode.Space) }, weight = 4f)
+            SpaceKey(onClick = { onKeyPressed(KeyCode.Space) }, weight = 4f)
             SymbolKey(symbol = " 。", onCommit = onCommit)
-            EnterKey(onClick = { viewModel.handleKeyClicked(KeyCode.Enter) })
+            EnterKey(onClick = { onKeyPressed(KeyCode.Enter) })
         }
     }
 }

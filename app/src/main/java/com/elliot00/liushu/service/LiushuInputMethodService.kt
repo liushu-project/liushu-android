@@ -21,32 +21,33 @@ import android.text.InputType
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelStore
-import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.setViewTreeLifecycleOwner
-import androidx.lifecycle.setViewTreeViewModelStoreOwner
 import androidx.savedstate.SavedStateRegistry
 import androidx.savedstate.SavedStateRegistryController
 import androidx.savedstate.SavedStateRegistryOwner
 import androidx.savedstate.setViewTreeSavedStateRegistryOwner
 import com.elliot00.liushu.input.InputView
+import com.elliot00.liushu.input.keyboard.KeyCode
+import com.elliot00.liushu.service.data.CapsLockState
+import com.elliot00.liushu.service.data.InputViewState
 import com.elliot00.liushu.uniffi.Candidate
 import com.elliot00.liushu.uniffi.Engine
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import timber.log.Timber
 import java.io.File
 
-interface LiushuInputMethodServiceImpl {
-    fun commitText(text: String)
-    fun search(code: String): List<Candidate>
-    fun handleEnter()
-    fun handleDelete()
-    fun getSegmentedInputTokens(input: String): List<String>
-}
-
-class LiushuInputMethodService : LifecycleInputMethodService(), ViewModelStoreOwner,
-    SavedStateRegistryOwner, LiushuInputMethodServiceImpl {
+class LiushuInputMethodService : LifecycleInputMethodService(), SavedStateRegistryOwner {
     lateinit var engine: Engine
+
+    private val savedStateRegistryController = SavedStateRegistryController.create(this)
+    override val savedStateRegistry: SavedStateRegistry get() = savedStateRegistryController.savedStateRegistry
+
+    override val lifecycle = dispatcher.lifecycle
+
+    private val _state = MutableStateFlow(InputViewState())
+    val state = _state.asStateFlow()
 
     override fun onCreate() {
         super.onCreate()
@@ -69,11 +70,123 @@ class LiushuInputMethodService : LifecycleInputMethodService(), ViewModelStoreOw
 
         window?.window?.decorView?.let { decorView ->
             decorView.setViewTreeLifecycleOwner(this)
-            decorView.setViewTreeViewModelStoreOwner(this)
             decorView.setViewTreeSavedStateRegistryOwner(this)
         }
 
         return view
+    }
+
+    fun handleKeyClicked(keyCode: KeyCode) {
+        when (keyCode) {
+            is KeyCode.Alpha -> {
+                handleValidAlphaKey(keyCode.code)
+            }
+
+            is KeyCode.RawText -> {
+                commitText(keyCode.text)
+            }
+
+            is KeyCode.AsciiModeSwitch -> {
+                _state.update { it.copy(isAsciiMode = !it.isAsciiMode) }
+            }
+
+            is KeyCode.Enter -> {
+                if (_state.value.input.isNotEmpty()) {
+                    commitText(_state.value.input)
+                } else {
+                    handleEnter()
+                }
+            }
+
+            is KeyCode.Delete -> {
+                if (_state.value.input.isNotEmpty()) {
+                    _state.update {
+                        val newInput = it.input.dropLast(1)
+                        val newSegmentedTokens = getSegmentedInputTokens(newInput)
+                        val newCandidates = search(newInput)
+                        it.copy(
+                            input = newInput,
+                            segmentedTokens = newSegmentedTokens,
+                            candidates = newCandidates
+                        )
+                    }
+                } else {
+                    handleDelete()
+                }
+            }
+
+            is KeyCode.Shift -> {
+                if (_state.value.let { it.capsLockState == CapsLockState.ACTIVATED || it.capsLockState == CapsLockState.SINGLE_LETTER }) {
+                    _state.update { it.copy(capsLockState = CapsLockState.DEACTIVATED) }
+                    return
+                }
+
+                if (_state.value.input.isEmpty()) {
+                    _state.update { it.copy(capsLockState = CapsLockState.SINGLE_LETTER) }
+                }
+            }
+
+            is KeyCode.Comma -> {
+                commitText(if (_state.value.isAsciiMode) "," else "，")
+            }
+
+            is KeyCode.Space -> {
+                commitText(" ")
+            }
+
+            is KeyCode.Period -> {
+                commitText(if (_state.value.isAsciiMode) "." else "。")
+            }
+        }
+    }
+
+    fun commitCandidate(candidate: Candidate) {
+        commitText(candidate.text)
+        _state.update {
+            val newSegmentTokens = it.segmentedTokens.drop(1)
+            if (newSegmentTokens.isEmpty()) {
+                it.copy(input = "", candidates = emptyList(), segmentedTokens = newSegmentTokens)
+            } else {
+                it.copy(
+                    input = newSegmentTokens.joinToString(""),
+                    candidates = search(newSegmentTokens[0]),
+                    segmentedTokens = newSegmentTokens
+                )
+            }
+        }
+    }
+
+    private fun handleValidAlphaKey(code: String) {
+        when (_state.value.capsLockState) {
+            CapsLockState.ACTIVATED -> {
+                commitText(code.uppercase())
+                return
+            }
+
+            CapsLockState.SINGLE_LETTER -> {
+                commitText(code.uppercase())
+                _state.update { it.copy(capsLockState = CapsLockState.DEACTIVATED) }
+                return
+            }
+
+            CapsLockState.DEACTIVATED -> {}
+        }
+
+        if (_state.value.isAsciiMode) {
+            commitText(code)
+            return
+        }
+
+        _state.update {
+            val newInput = it.input + code
+            val newSegmentTokens = getSegmentedInputTokens(newInput)
+            val newCandidates = search(newSegmentTokens[0])
+            it.copy(
+                input = newInput,
+                candidates = newCandidates,
+                segmentedTokens = newSegmentTokens
+            )
+        }
     }
 
     override fun onFinishInput() {
@@ -86,15 +199,15 @@ class LiushuInputMethodService : LifecycleInputMethodService(), ViewModelStoreOw
         super.onDestroy()
     }
 
-    override fun commitText(text: String) {
+    fun commitText(text: String) {
         currentInputConnection.commitText(text, 1)
     }
 
-    override fun search(code: String): List<Candidate> {
+    fun search(code: String): List<Candidate> {
         return engine.search(code)
     }
 
-    override fun handleEnter() {
+    fun handleEnter() {
         val inputType = currentInputEditorInfo.inputType
         if ((inputType and InputType.TYPE_TEXT_FLAG_MULTI_LINE) != 0) {
             commitText("\n")
@@ -103,26 +216,11 @@ class LiushuInputMethodService : LifecycleInputMethodService(), ViewModelStoreOw
         }
     }
 
-    override fun handleDelete() {
+    fun handleDelete() {
         sendDownUpKeyEvents(KeyEvent.KEYCODE_DEL)
     }
 
-    override fun getSegmentedInputTokens(input: String): List<String> {
+    fun getSegmentedInputTokens(input: String): List<String> {
         return engine.segment(input)
     }
-
-    override val viewModelStore: ViewModelStore
-        get() = store
-    override val lifecycle: Lifecycle
-        get() = dispatcher.lifecycle
-
-
-    //ViewModelStore Methods
-    private val store = ViewModelStore()
-
-    //SaveStateRegestry Methods
-
-    private val savedStateRegistryController = SavedStateRegistryController.create(this)
-
-    override val savedStateRegistry: SavedStateRegistry get() = savedStateRegistryController.savedStateRegistry
 }
