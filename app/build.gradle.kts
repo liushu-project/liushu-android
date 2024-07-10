@@ -1,10 +1,10 @@
 plugins {
     id("org.mozilla.rust-android-gradle.rust-android")
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt)
 }
-
-apply(plugin = "org.mozilla.rust-android-gradle.rust-android")
 
 android {
     namespace = "com.elliot00.liushu"
@@ -42,7 +42,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.8"
+        kotlinCompilerExtensionVersion = "1.5.3"
     }
     packaging {
         resources {
@@ -83,6 +83,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.service)
     implementation(libs.timber)
+    implementation(libs.hilt.android.core)
+    ksp(libs.hilt.compiler)
     testImplementation(libs.junit)
     testImplementation(libs.mockk.android)
     testImplementation(libs.mockk.agent)
