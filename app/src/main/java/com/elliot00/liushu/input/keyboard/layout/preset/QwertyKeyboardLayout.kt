@@ -25,8 +25,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.elliot00.liushu.input.MainInputAreaContentType
-import com.elliot00.liushu.input.keyboard.KeyCode
+import com.elliot00.liushu.input.data.CapsLockState
+import com.elliot00.liushu.input.data.InputMethodAction
+import com.elliot00.liushu.input.data.InputViewState
+import com.elliot00.liushu.input.data.MainInputAreaContentType
 import com.elliot00.liushu.input.keyboard.key.VariantKeyLabel
 import com.elliot00.liushu.input.keyboard.key.preset.AlphabetKey
 import com.elliot00.liushu.input.keyboard.key.preset.BackspaceKey
@@ -37,15 +39,13 @@ import com.elliot00.liushu.input.keyboard.key.preset.PunctuationKey
 import com.elliot00.liushu.input.keyboard.key.preset.ShiftKey
 import com.elliot00.liushu.input.keyboard.key.preset.SpaceKey
 import com.elliot00.liushu.input.keyboard.row.KeyboardRow
-import com.elliot00.liushu.service.data.CapsLockState
-import com.elliot00.liushu.service.data.InputViewState
 
 
 @Composable
 fun QwertyKeyboardLayout(
     onMainContentTypeChange: (MainInputAreaContentType) -> Unit,
     state: InputViewState,
-    onKeyPressed: (KeyCode) -> Unit
+    onAction: (InputMethodAction) -> Unit,
 ) {
     Column(
         Modifier
@@ -63,115 +63,115 @@ fun QwertyKeyboardLayout(
             AlphabetKey(label = VariantKeyLabel(text = "q", textInCapsLock = "Q"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onKeyPressed(KeyCode.Alpha("q")) })
+                onClick = { onAction(InputMethodAction.SendComposableKey("q")) })
             AlphabetKey(label = VariantKeyLabel(text = "w", textInCapsLock = "W"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onKeyPressed(KeyCode.Alpha("w")) })
+                onClick = { onAction(InputMethodAction.SendComposableKey("w")) })
             AlphabetKey(label = VariantKeyLabel(text = "e", textInCapsLock = "E"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onKeyPressed(KeyCode.Alpha("e")) })
+                onClick = { onAction(InputMethodAction.SendComposableKey("e")) })
             AlphabetKey(label = VariantKeyLabel(text = "r", textInCapsLock = "R"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onKeyPressed(KeyCode.Alpha("r")) })
+                onClick = { onAction(InputMethodAction.SendComposableKey("r")) })
             AlphabetKey(label = VariantKeyLabel(text = "t", textInCapsLock = "T"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onKeyPressed(KeyCode.Alpha("t")) })
+                onClick = { onAction(InputMethodAction.SendComposableKey("t")) })
             AlphabetKey(label = VariantKeyLabel(text = "y", textInCapsLock = "Y"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onKeyPressed(KeyCode.Alpha("y")) })
+                onClick = { onAction(InputMethodAction.SendComposableKey("y")) })
             AlphabetKey(label = VariantKeyLabel(text = "u", textInCapsLock = "U"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onKeyPressed(KeyCode.Alpha("u")) })
+                onClick = { onAction(InputMethodAction.SendComposableKey("u")) })
             AlphabetKey(label = VariantKeyLabel(text = "i", textInCapsLock = "I"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onKeyPressed(KeyCode.Alpha("i")) })
+                onClick = { onAction(InputMethodAction.SendComposableKey("i")) })
             AlphabetKey(label = VariantKeyLabel(text = "o", textInCapsLock = "O"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onKeyPressed(KeyCode.Alpha("o")) })
+                onClick = { onAction(InputMethodAction.SendComposableKey("o")) })
             AlphabetKey(label = VariantKeyLabel(text = "p", textInCapsLock = "P"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onKeyPressed(KeyCode.Alpha("p")) })
+                onClick = { onAction(InputMethodAction.SendComposableKey("p")) })
         }
         KeyboardRow {
             Box(modifier = Modifier.weight(0.5f))
             AlphabetKey(label = VariantKeyLabel(text = "a", textInCapsLock = "A"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onKeyPressed(KeyCode.Alpha("a")) })
+                onClick = { onAction(InputMethodAction.SendComposableKey("a")) })
             AlphabetKey(label = VariantKeyLabel(text = "s", textInCapsLock = "S"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onKeyPressed(KeyCode.Alpha("s")) })
+                onClick = { onAction(InputMethodAction.SendComposableKey("s")) })
             AlphabetKey(label = VariantKeyLabel(text = "d", textInCapsLock = "D"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onKeyPressed(KeyCode.Alpha("d")) })
+                onClick = { onAction(InputMethodAction.SendComposableKey("d")) })
             AlphabetKey(label = VariantKeyLabel(text = "f", textInCapsLock = "F"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onKeyPressed(KeyCode.Alpha("f")) })
+                onClick = { onAction(InputMethodAction.SendComposableKey("f")) })
             AlphabetKey(label = VariantKeyLabel(text = "g", textInCapsLock = "G"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onKeyPressed(KeyCode.Alpha("g")) })
+                onClick = { onAction(InputMethodAction.SendComposableKey("g")) })
             AlphabetKey(label = VariantKeyLabel(text = "h", textInCapsLock = "H"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onKeyPressed(KeyCode.Alpha("h")) })
+                onClick = { onAction(InputMethodAction.SendComposableKey("h")) })
             AlphabetKey(label = VariantKeyLabel(text = "j", textInCapsLock = "J"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onKeyPressed(KeyCode.Alpha("j")) })
+                onClick = { onAction(InputMethodAction.SendComposableKey("j")) })
             AlphabetKey(label = VariantKeyLabel(text = "k", textInCapsLock = "K"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onKeyPressed(KeyCode.Alpha("k")) })
+                onClick = { onAction(InputMethodAction.SendComposableKey("k")) })
             AlphabetKey(label = VariantKeyLabel(text = "l", textInCapsLock = "L"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onKeyPressed(KeyCode.Alpha("l")) })
+                onClick = { onAction(InputMethodAction.SendComposableKey("l")) })
             Box(modifier = Modifier.weight(0.5f))
         }
         KeyboardRow {
-            ShiftKey(onClick = { onKeyPressed(KeyCode.Shift) })
+            ShiftKey(onClick = { onAction(InputMethodAction.Shift) })
             AlphabetKey(label = VariantKeyLabel(text = "z", textInCapsLock = "Z"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onKeyPressed(KeyCode.Alpha("z")) })
+                onClick = { onAction(InputMethodAction.SendComposableKey("z")) })
             AlphabetKey(label = VariantKeyLabel(text = "x", textInCapsLock = "X"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onKeyPressed(KeyCode.Alpha("x")) })
+                onClick = { onAction(InputMethodAction.SendComposableKey("x")) })
             AlphabetKey(label = VariantKeyLabel(text = "c", textInCapsLock = "C"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onKeyPressed(KeyCode.Alpha("c")) })
+                onClick = { onAction(InputMethodAction.SendComposableKey("c")) })
             AlphabetKey(label = VariantKeyLabel(text = "v", textInCapsLock = "V"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onKeyPressed(KeyCode.Alpha("v")) })
+                onClick = { onAction(InputMethodAction.SendComposableKey("v")) })
             AlphabetKey(label = VariantKeyLabel(text = "b", textInCapsLock = "B"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onKeyPressed(KeyCode.Alpha("b")) })
+                onClick = { onAction(InputMethodAction.SendComposableKey("b")) })
             AlphabetKey(label = VariantKeyLabel(text = "n", textInCapsLock = "N"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onKeyPressed(KeyCode.Alpha("n")) })
+                onClick = { onAction(InputMethodAction.SendComposableKey("n")) })
             AlphabetKey(label = VariantKeyLabel(text = "m", textInCapsLock = "M"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onKeyPressed(KeyCode.Alpha("m")) })
-            BackspaceKey(onClick = { onKeyPressed(KeyCode.Delete) })
+                onClick = { onAction(InputMethodAction.SendComposableKey("m")) })
+            BackspaceKey(onClick = { onAction(InputMethodAction.Backspace) })
         }
         KeyboardRow {
             LayoutSwitchKey(
@@ -180,14 +180,14 @@ fun QwertyKeyboardLayout(
             PunctuationKey(label = VariantKeyLabel(text = "，", textInAscii = ","),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onKeyPressed(KeyCode.Comma) })
-            LanguageKey(onClick = { onKeyPressed(KeyCode.AsciiModeSwitch) })
-            SpaceKey(onClick = { onKeyPressed(KeyCode.Space) })
+                onClick = { onAction(InputMethodAction.DirectlyCommit(if (state.isAsciiMode) "," else "，")) })
+            LanguageKey(onClick = { onAction(InputMethodAction.ToggleAsciiMode) })
+            SpaceKey(onClick = { onAction(InputMethodAction.Space) })
             PunctuationKey(label = VariantKeyLabel(text = "。", textInAscii = "."),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onKeyPressed(KeyCode.Period) })
-            EnterKey(onClick = { onKeyPressed(KeyCode.Enter) })
+                onClick = { onAction(InputMethodAction.DirectlyCommit(if (state.isAsciiMode) "." else "。")) })
+            EnterKey(onClick = { onAction(InputMethodAction.Enter) })
         }
     }
 }

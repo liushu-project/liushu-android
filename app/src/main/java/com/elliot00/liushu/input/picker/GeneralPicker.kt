@@ -32,7 +32,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
@@ -47,14 +47,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.elliot00.liushu.input.keyboard.KeyCode
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun GeneralPicker(
     symbolsData: Array<Pair<String, Array<String>>>,
-    onKeyPressed: (KeyCode) -> Unit,
+    onPick: (String) -> Unit,
     onGoBack: () -> Unit
 ) {
     val pagerState = rememberPagerState(initialPage = 0, pageCount = { symbolsData.size })
@@ -72,7 +71,7 @@ fun GeneralPicker(
                     columns = GridCells.Fixed(10),
                 ) {
                     items(symbolsData[page].second) { symbol ->
-                        TextButton(onClick = { onKeyPressed(KeyCode.RawText(symbol)) }) {
+                        TextButton(onClick = { onPick(symbol) }) {
                             Text(text = symbol, fontSize = 24.sp, textAlign = TextAlign.Center)
                         }
                     }
@@ -87,7 +86,7 @@ fun GeneralPicker(
                 .heightIn(40.dp)
         ) {
             IconButton(onClick = onGoBack) {
-                Icon(Icons.Filled.KeyboardArrowLeft, "goBackToQwerty")
+                Icon(Icons.AutoMirrored.Filled.KeyboardArrowLeft, "goBackToQwerty")
             }
             Column {
                 LazyRow {

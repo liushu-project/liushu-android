@@ -15,7 +15,7 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.elliot00.liushu.service
+package com.elliot00.liushu.input.service
 
 import android.content.Intent
 import android.inputmethodservice.InputMethodService

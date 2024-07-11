@@ -18,11 +18,10 @@
 package com.elliot00.liushu.input.picker
 
 import androidx.compose.runtime.Composable
-import com.elliot00.liushu.input.keyboard.KeyCode
 
 @Composable
-fun SymbolsPicker(onKeyPressed: (KeyCode) -> Unit, onGoBack: () -> Unit) {
-    GeneralPicker(symbolsData = symbolsMatrix, onKeyPressed = onKeyPressed, onGoBack = onGoBack)
+fun SymbolsPicker(onPick: (String) -> Unit, onGoBack: () -> Unit) {
+    GeneralPicker(symbolsData = symbolsMatrix, onPick = onPick, onGoBack = onGoBack)
 }
 
 // Symbols from https://github.com/fcitx5-android/fcitx5-android/

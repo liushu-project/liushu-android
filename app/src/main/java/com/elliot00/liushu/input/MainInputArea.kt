@@ -18,49 +18,52 @@
 package com.elliot00.liushu.input
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import com.elliot00.liushu.input.keyboard.KeyCode
+import com.elliot00.liushu.input.data.InputMethodAction
+import com.elliot00.liushu.input.data.InputViewState
+import com.elliot00.liushu.input.data.MainInputAreaContentType
 import com.elliot00.liushu.input.keyboard.layout.preset.CommonlyUsedSymbolKeyboard
 import com.elliot00.liushu.input.keyboard.layout.preset.QwertyKeyboardLayout
 import com.elliot00.liushu.input.picker.EmojisPicker
 import com.elliot00.liushu.input.picker.SymbolsPicker
-import com.elliot00.liushu.service.data.InputViewState
 
 @Composable
-fun MainInputArea(state: InputViewState, onKeyPressed: (KeyCode) -> Unit) {
-    var contentType by remember { mutableStateOf(MainInputAreaContentType.QWERTY_KEYBOARD) }
-    val onGoBack: () -> Unit = { contentType = MainInputAreaContentType.QWERTY_KEYBOARD }
+fun MainInputArea(
+    state: InputViewState,
+    onAction: (InputMethodAction) -> Unit,
+) {
+    val onMainContentTypeChange: (MainInputAreaContentType) -> Unit =
+        { onAction(InputMethodAction.ChangeInputType(it)) }
+    val onGoBack: () -> Unit =
+        { onAction(InputMethodAction.ChangeInputType(MainInputAreaContentType.QWERTY_KEYBOARD)) }
 
-    when (contentType) {
+    when (state.inputType) {
         MainInputAreaContentType.QWERTY_KEYBOARD -> {
             QwertyKeyboardLayout(
-                onMainContentTypeChange = { contentType = it },
-                state,
-                onKeyPressed
+                onMainContentTypeChange = onMainContentTypeChange,
+                state = state,
+                onAction = onAction,
             )
         }
 
         MainInputAreaContentType.COMMONLY_USED_SYMBOLS -> {
             CommonlyUsedSymbolKeyboard(
-                onCommit = { onKeyPressed(KeyCode.RawText(it)) },
-                onMainContentTypeChange = { contentType = it },
-                onKeyPressed = onKeyPressed
+                onMainContentTypeChange = onMainContentTypeChange,
+                onAction = onAction
             )
         }
 
         MainInputAreaContentType.EMOJIS_PICKER -> {
-            EmojisPicker(onKeyPressed = onKeyPressed, onGoBack = onGoBack)
+            EmojisPicker(
+                onPick = { onAction(InputMethodAction.DirectlyCommit(it)) },
+                onGoBack = onGoBack
+            )
         }
 
         MainInputAreaContentType.SYMBOLS_PICKER -> {
-            SymbolsPicker(onKeyPressed = onKeyPressed, onGoBack = onGoBack)
+            SymbolsPicker(
+                onPick = { onAction(InputMethodAction.DirectlyCommit(it)) },
+                onGoBack = onGoBack
+            )
         }
     }
-}
-
-enum class MainInputAreaContentType {
-    QWERTY_KEYBOARD, COMMONLY_USED_SYMBOLS, EMOJIS_PICKER, SYMBOLS_PICKER
 }

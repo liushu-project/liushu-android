@@ -29,8 +29,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import com.elliot00.liushu.input.MainInputAreaContentType
-import com.elliot00.liushu.input.keyboard.KeyCode
+import com.elliot00.liushu.input.data.InputMethodAction
+import com.elliot00.liushu.input.data.MainInputAreaContentType
 import com.elliot00.liushu.input.keyboard.key.BaseKey
 import com.elliot00.liushu.input.keyboard.key.preset.BackspaceKey
 import com.elliot00.liushu.input.keyboard.key.preset.EnterKey
@@ -41,10 +41,10 @@ import com.elliot00.liushu.input.keyboard.row.KeyboardRow
 
 @Composable
 fun CommonlyUsedSymbolKeyboard(
-    onCommit: (symbol: String) -> Unit,
     onMainContentTypeChange: (MainInputAreaContentType) -> Unit,
-    onKeyPressed: (KeyCode) -> Unit,
+    onAction: (InputMethodAction) -> Unit
 ) {
+    val onCommit: (String) -> Unit = { onAction(InputMethodAction.DirectlyCommit(it)) }
     Column(
         Modifier
             .padding(4.dp)
@@ -97,16 +97,16 @@ fun CommonlyUsedSymbolKeyboard(
             SymbolKey(symbol = "？", onCommit = onCommit)
             SymbolKey(symbol = "！", onCommit = onCommit)
             SymbolKey(symbol = ".", onCommit = onCommit)
-            BackspaceKey(onClick = { onKeyPressed(KeyCode.Delete) })
+            BackspaceKey(onClick = { onAction(InputMethodAction.Backspace) })
         }
         KeyboardRow {
             LayoutSwitchKey(
                 label = "abc",
                 onClick = { onMainContentTypeChange(MainInputAreaContentType.QWERTY_KEYBOARD) })
             SymbolKey(symbol = "，︀", onCommit = onCommit)
-            SpaceKey(onClick = { onKeyPressed(KeyCode.Space) }, weight = 4f)
+            SpaceKey(onClick = { onAction(InputMethodAction.DirectlyCommit(" ")) }, weight = 4f)
             SymbolKey(symbol = " 。", onCommit = onCommit)
-            EnterKey(onClick = { onKeyPressed(KeyCode.Enter) })
+            EnterKey(onClick = { onAction(InputMethodAction.Enter) })
         }
     }
 }

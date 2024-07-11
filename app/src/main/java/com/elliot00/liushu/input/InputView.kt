@@ -26,20 +26,19 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Surface
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.AbstractComposeView
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.elliot00.liushu.input.data.InputMethodAction
+import com.elliot00.liushu.input.data.InputViewState
 import com.elliot00.liushu.input.feedback.InputTokensPopup
-import com.elliot00.liushu.input.keyboard.KeyCode
 import com.elliot00.liushu.input.keyboard.candidate.CandidateItem
-import com.elliot00.liushu.service.LiushuInputMethodService
-import com.elliot00.liushu.service.data.InputViewState
+import com.elliot00.liushu.input.service.LiushuInputMethodService
 import com.elliot00.liushu.ui.theme.LiushuTheme
-import com.elliot00.liushu.uniffi.Candidate
 
 
 class InputView(context: Context) : AbstractComposeView(context) {
@@ -47,12 +46,11 @@ class InputView(context: Context) : AbstractComposeView(context) {
     override fun Content() {
         LiushuTheme {
             val service = context as LiushuInputMethodService
-            val state by service.state.collectAsState()
+            val state by service.state.collectAsStateWithLifecycle()
 
             InputScreen(
                 state = state,
-                onPressKey = service::handleKeyClicked,
-                onCommitCandidate = service::commitCandidate
+                onAction = service::onAction,
             )
         }
     }
@@ -61,8 +59,7 @@ class InputView(context: Context) : AbstractComposeView(context) {
 @Composable
 private fun InputScreen(
     state: InputViewState,
-    onPressKey: (KeyCode) -> Unit,
-    onCommitCandidate: (Candidate) -> Unit
+    onAction: (InputMethodAction) -> Unit,
 ) {
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
 
@@ -81,13 +78,13 @@ private fun InputScreen(
                 itemsIndexed(state.candidates) { index, candidate ->
                     CandidateItem(
                         candidate = candidate,
-                        onClick = { onCommitCandidate(candidate) })
+                        onClick = { onAction(InputMethodAction.CommitCandidate(candidate)) })
                     if (index < state.candidates.lastIndex) {
                         VerticalDivider(modifier = Modifier.fillParentMaxHeight(0.6f))
                     }
                 }
             }
-            MainInputArea(state = state, onKeyPressed = onPressKey)
+            MainInputArea(state = state, onAction = onAction)
         }
     }
 }

@@ -20,7 +20,7 @@ package com.elliot00.liushu.input.keyboard.key
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
-import com.elliot00.liushu.input.MainInputAreaContentType
+import com.elliot00.liushu.input.data.MainInputAreaContentType
 import com.elliot00.liushu.input.keyboard.KeyCode
 
 data class KeyDefinition(

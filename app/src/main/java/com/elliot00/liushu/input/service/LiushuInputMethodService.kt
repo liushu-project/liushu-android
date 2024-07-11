@@ -15,7 +15,7 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.elliot00.liushu.service
+package com.elliot00.liushu.input.service
 
 import android.text.InputType
 import android.view.KeyEvent
@@ -27,9 +27,9 @@ import androidx.savedstate.SavedStateRegistryController
 import androidx.savedstate.SavedStateRegistryOwner
 import androidx.savedstate.setViewTreeSavedStateRegistryOwner
 import com.elliot00.liushu.input.InputView
-import com.elliot00.liushu.input.keyboard.KeyCode
-import com.elliot00.liushu.service.data.CapsLockState
-import com.elliot00.liushu.service.data.InputViewState
+import com.elliot00.liushu.input.data.CapsLockState
+import com.elliot00.liushu.input.data.InputMethodAction
+import com.elliot00.liushu.input.data.InputViewState
 import com.elliot00.liushu.uniffi.Candidate
 import com.elliot00.liushu.uniffi.Engine
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -76,30 +76,32 @@ class LiushuInputMethodService : LifecycleInputMethodService(), SavedStateRegist
         return view
     }
 
-    fun handleKeyClicked(keyCode: KeyCode) {
-        when (keyCode) {
-            is KeyCode.Alpha -> {
-                handleValidAlphaKey(keyCode.code)
+    fun onAction(action: InputMethodAction) {
+        when (action) {
+            is InputMethodAction.CommitCandidate -> {
+                commitCandidate(action.candidate)
             }
 
-            is KeyCode.RawText -> {
-                commitText(keyCode.text)
+            is InputMethodAction.SendComposableKey -> {
+                handleValidAlphaKey(action.key)
             }
 
-            is KeyCode.AsciiModeSwitch -> {
+            is InputMethodAction.DirectlyCommit -> {
+                commitText(action.text)
+            }
+
+            is InputMethodAction.ToggleAsciiMode -> {
                 _state.update { it.copy(isAsciiMode = !it.isAsciiMode) }
             }
 
-            is KeyCode.Enter -> {
-                if (_state.value.input.isNotEmpty()) {
-                    commitText(_state.value.input)
-                } else {
-                    handleEnter()
-                }
+            is InputMethodAction.ChangeInputType -> {
+                _state.update { it.copy(inputType = action.inputType) }
             }
 
-            is KeyCode.Delete -> {
-                if (_state.value.input.isNotEmpty()) {
+            is InputMethodAction.Backspace -> {
+                if (_state.value.input.isEmpty()) {
+                    sendDownUpKeyEvents(KeyEvent.KEYCODE_DEL)
+                } else {
                     _state.update {
                         val newInput = it.input.dropLast(1)
                         val newSegmentedTokens = getSegmentedInputTokens(newInput)
@@ -110,37 +112,40 @@ class LiushuInputMethodService : LifecycleInputMethodService(), SavedStateRegist
                             candidates = newCandidates
                         )
                     }
+                }
+            }
+
+            is InputMethodAction.Enter -> {
+                handleEnter()
+            }
+
+            is InputMethodAction.CapsLock -> {
+                _state.update {
+                    it.copy(
+                        capsLockState = if (it.capsLockState == CapsLockState.DEACTIVATED) CapsLockState.ACTIVATED else CapsLockState.DEACTIVATED
+                    )
+                }
+            }
+
+            is InputMethodAction.Shift -> {
+                _state.update {
+                    it.copy(
+                        capsLockState = if (it.capsLockState == CapsLockState.DEACTIVATED) CapsLockState.SINGLE_LETTER else CapsLockState.DEACTIVATED
+                    )
+                }
+            }
+
+            is InputMethodAction.Space -> {
+                if (_state.value.candidates.isEmpty()) {
+                    commitText(" ")
                 } else {
-                    handleDelete()
+                    commitCandidate(_state.value.candidates.first())
                 }
-            }
-
-            is KeyCode.Shift -> {
-                if (_state.value.let { it.capsLockState == CapsLockState.ACTIVATED || it.capsLockState == CapsLockState.SINGLE_LETTER }) {
-                    _state.update { it.copy(capsLockState = CapsLockState.DEACTIVATED) }
-                    return
-                }
-
-                if (_state.value.input.isEmpty()) {
-                    _state.update { it.copy(capsLockState = CapsLockState.SINGLE_LETTER) }
-                }
-            }
-
-            is KeyCode.Comma -> {
-                commitText(if (_state.value.isAsciiMode) "," else "，")
-            }
-
-            is KeyCode.Space -> {
-                commitText(" ")
-            }
-
-            is KeyCode.Period -> {
-                commitText(if (_state.value.isAsciiMode) "." else "。")
             }
         }
     }
 
-    fun commitCandidate(candidate: Candidate) {
+    private fun commitCandidate(candidate: Candidate) {
         commitText(candidate.text)
         _state.update {
             val newSegmentTokens = it.segmentedTokens.drop(1)
@@ -199,28 +204,28 @@ class LiushuInputMethodService : LifecycleInputMethodService(), SavedStateRegist
         super.onDestroy()
     }
 
-    fun commitText(text: String) {
+    private fun commitText(text: String) {
         currentInputConnection.commitText(text, 1)
     }
 
-    fun search(code: String): List<Candidate> {
+    private fun search(code: String): List<Candidate> {
         return engine.search(code)
     }
 
-    fun handleEnter() {
-        val inputType = currentInputEditorInfo.inputType
-        if ((inputType and InputType.TYPE_TEXT_FLAG_MULTI_LINE) != 0) {
-            commitText("\n")
+    private fun handleEnter() {
+        if (_state.value.input.isNotEmpty()) {
+            commitText(_state.value.input)
         } else {
-            currentInputConnection.performEditorAction(EditorInfo.IME_ACTION_GO)
+            val inputType = currentInputEditorInfo.inputType
+            if ((inputType and InputType.TYPE_TEXT_FLAG_MULTI_LINE) != 0) {
+                commitText("\n")
+            } else {
+                currentInputConnection.performEditorAction(EditorInfo.IME_ACTION_GO)
+            }
         }
     }
 
-    fun handleDelete() {
-        sendDownUpKeyEvents(KeyEvent.KEYCODE_DEL)
-    }
-
-    fun getSegmentedInputTokens(input: String): List<String> {
+    private fun getSegmentedInputTokens(input: String): List<String> {
         return engine.segment(input)
     }
 }
