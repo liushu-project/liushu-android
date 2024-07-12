@@ -60,122 +60,225 @@ fun QwertyKeyboardLayout(
             capsLockState == CapsLockState.ACTIVATED || capsLockState == CapsLockState.SINGLE_LETTER
 
         KeyboardRow {
-            AlphabetKey(label = VariantKeyLabel(text = "q", textInCapsLock = "Q"),
+            AlphabetKey(
+                label = VariantKeyLabel(text = "q", textInCapsLock = "Q"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onAction(InputMethodAction.SendComposableKey("q")) })
-            AlphabetKey(label = VariantKeyLabel(text = "w", textInCapsLock = "W"),
+                onClick = { onAction(InputMethodAction.SendComposableKey("q")) },
+                swipeUpText = "1",
+                onSwipeUp = { onAction(InputMethodAction.DirectlyCommit("1")) },
+            )
+            AlphabetKey(
+                label = VariantKeyLabel(text = "w", textInCapsLock = "W"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onAction(InputMethodAction.SendComposableKey("w")) })
-            AlphabetKey(label = VariantKeyLabel(text = "e", textInCapsLock = "E"),
+                onClick = { onAction(InputMethodAction.SendComposableKey("w")) },
+                swipeUpText = "2",
+                onSwipeUp = { onAction(InputMethodAction.DirectlyCommit("2")) },
+            )
+            AlphabetKey(
+                label = VariantKeyLabel(text = "e", textInCapsLock = "E"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onAction(InputMethodAction.SendComposableKey("e")) })
-            AlphabetKey(label = VariantKeyLabel(text = "r", textInCapsLock = "R"),
+                onClick = { onAction(InputMethodAction.SendComposableKey("e")) },
+                swipeUpText = "3",
+                onSwipeUp = { onAction(InputMethodAction.DirectlyCommit("3")) },
+            )
+            AlphabetKey(
+                label = VariantKeyLabel(text = "r", textInCapsLock = "R"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onAction(InputMethodAction.SendComposableKey("r")) })
-            AlphabetKey(label = VariantKeyLabel(text = "t", textInCapsLock = "T"),
+                onClick = { onAction(InputMethodAction.SendComposableKey("r")) },
+                swipeUpText = "4",
+                onSwipeUp = { onAction(InputMethodAction.DirectlyCommit("4")) },
+            )
+            AlphabetKey(
+                label = VariantKeyLabel(text = "t", textInCapsLock = "T"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onAction(InputMethodAction.SendComposableKey("t")) })
-            AlphabetKey(label = VariantKeyLabel(text = "y", textInCapsLock = "Y"),
+                onClick = { onAction(InputMethodAction.SendComposableKey("t")) },
+                swipeUpText = "5",
+                onSwipeUp = { onAction(InputMethodAction.DirectlyCommit("5")) },
+            )
+            AlphabetKey(
+                label = VariantKeyLabel(text = "y", textInCapsLock = "Y"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onAction(InputMethodAction.SendComposableKey("y")) })
-            AlphabetKey(label = VariantKeyLabel(text = "u", textInCapsLock = "U"),
+                onClick = { onAction(InputMethodAction.SendComposableKey("y")) },
+                swipeUpText = "6",
+                onSwipeUp = { onAction(InputMethodAction.DirectlyCommit("6")) },
+            )
+            AlphabetKey(
+                label = VariantKeyLabel(text = "u", textInCapsLock = "U"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onAction(InputMethodAction.SendComposableKey("u")) })
-            AlphabetKey(label = VariantKeyLabel(text = "i", textInCapsLock = "I"),
+                onClick = { onAction(InputMethodAction.SendComposableKey("u")) },
+                swipeUpText = "7",
+                onSwipeUp = { onAction(InputMethodAction.DirectlyCommit("7")) },
+            )
+            AlphabetKey(
+                label = VariantKeyLabel(text = "i", textInCapsLock = "I"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onAction(InputMethodAction.SendComposableKey("i")) })
-            AlphabetKey(label = VariantKeyLabel(text = "o", textInCapsLock = "O"),
+                onClick = { onAction(InputMethodAction.SendComposableKey("i")) },
+                swipeUpText = "8",
+                onSwipeUp = { onAction(InputMethodAction.DirectlyCommit("8")) },
+            )
+            AlphabetKey(
+                label = VariantKeyLabel(text = "o", textInCapsLock = "O"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onAction(InputMethodAction.SendComposableKey("o")) })
-            AlphabetKey(label = VariantKeyLabel(text = "p", textInCapsLock = "P"),
+                onClick = { onAction(InputMethodAction.SendComposableKey("o")) },
+                swipeUpText = "9",
+                onSwipeUp = { onAction(InputMethodAction.DirectlyCommit("9")) },
+            )
+            AlphabetKey(
+                label = VariantKeyLabel(text = "p", textInCapsLock = "P"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onAction(InputMethodAction.SendComposableKey("p")) })
+                onClick = { onAction(InputMethodAction.SendComposableKey("p")) },
+                swipeUpText = "0",
+                onSwipeUp = { onAction(InputMethodAction.DirectlyCommit("0")) },
+            )
         }
         KeyboardRow {
             Box(modifier = Modifier.weight(0.5f))
-            AlphabetKey(label = VariantKeyLabel(text = "a", textInCapsLock = "A"),
+            AlphabetKey(
+                label = VariantKeyLabel(text = "a", textInCapsLock = "A"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onAction(InputMethodAction.SendComposableKey("a")) })
-            AlphabetKey(label = VariantKeyLabel(text = "s", textInCapsLock = "S"),
+                onClick = { onAction(InputMethodAction.SendComposableKey("a")) },
+                swipeUpText = "@",
+                onSwipeUp = { onAction(InputMethodAction.DirectlyCommit("@")) },
+            )
+            AlphabetKey(
+                label = VariantKeyLabel(text = "s", textInCapsLock = "S"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onAction(InputMethodAction.SendComposableKey("s")) })
-            AlphabetKey(label = VariantKeyLabel(text = "d", textInCapsLock = "D"),
+                onClick = { onAction(InputMethodAction.SendComposableKey("s")) },
+                swipeUpText = "#",
+                onSwipeUp = { onAction(InputMethodAction.DirectlyCommit("#")) },
+            )
+            AlphabetKey(
+                label = VariantKeyLabel(text = "d", textInCapsLock = "D"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onAction(InputMethodAction.SendComposableKey("d")) })
-            AlphabetKey(label = VariantKeyLabel(text = "f", textInCapsLock = "F"),
+                onClick = { onAction(InputMethodAction.SendComposableKey("d")) },
+                swipeUpText = "$",
+                onSwipeUp = { onAction(InputMethodAction.DirectlyCommit("$")) },
+            )
+            AlphabetKey(
+                label = VariantKeyLabel(text = "f", textInCapsLock = "F"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onAction(InputMethodAction.SendComposableKey("f")) })
-            AlphabetKey(label = VariantKeyLabel(text = "g", textInCapsLock = "G"),
+                onClick = { onAction(InputMethodAction.SendComposableKey("f")) },
+                swipeUpText = "%",
+                onSwipeUp = { onAction(InputMethodAction.DirectlyCommit("%")) },
+            )
+            AlphabetKey(
+                label = VariantKeyLabel(text = "g", textInCapsLock = "G"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onAction(InputMethodAction.SendComposableKey("g")) })
-            AlphabetKey(label = VariantKeyLabel(text = "h", textInCapsLock = "H"),
+                onClick = { onAction(InputMethodAction.SendComposableKey("g")) },
+                swipeUpText = "&",
+                onSwipeUp = { onAction(InputMethodAction.DirectlyCommit("&")) },
+            )
+            AlphabetKey(
+                label = VariantKeyLabel(text = "h", textInCapsLock = "H"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onAction(InputMethodAction.SendComposableKey("h")) })
-            AlphabetKey(label = VariantKeyLabel(text = "j", textInCapsLock = "J"),
+                onClick = { onAction(InputMethodAction.SendComposableKey("h")) },
+                swipeUpText = "-",
+                onSwipeUp = { onAction(InputMethodAction.DirectlyCommit("-")) },
+            )
+            AlphabetKey(
+                label = VariantKeyLabel(text = "j", textInCapsLock = "J"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onAction(InputMethodAction.SendComposableKey("j")) })
-            AlphabetKey(label = VariantKeyLabel(text = "k", textInCapsLock = "K"),
+                onClick = { onAction(InputMethodAction.SendComposableKey("j")) },
+                swipeUpText = "+",
+                onSwipeUp = { onAction(InputMethodAction.DirectlyCommit("+")) },
+            )
+            AlphabetKey(
+                label = VariantKeyLabel(text = "k", textInCapsLock = "K"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onAction(InputMethodAction.SendComposableKey("k")) })
-            AlphabetKey(label = VariantKeyLabel(text = "l", textInCapsLock = "L"),
+                onClick = { onAction(InputMethodAction.SendComposableKey("k")) },
+                swipeUpText = "（",
+                onSwipeUp = { onAction(InputMethodAction.DirectlyCommit("（")) },
+            )
+            AlphabetKey(
+                label = VariantKeyLabel(text = "l", textInCapsLock = "L"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onAction(InputMethodAction.SendComposableKey("l")) })
+                onClick = { onAction(InputMethodAction.SendComposableKey("l")) },
+                swipeUpText = "）",
+                onSwipeUp = { onAction(InputMethodAction.DirectlyCommit("）")) },
+            )
             Box(modifier = Modifier.weight(0.5f))
         }
         KeyboardRow {
             ShiftKey(onClick = { onAction(InputMethodAction.Shift) })
-            AlphabetKey(label = VariantKeyLabel(text = "z", textInCapsLock = "Z"),
+            AlphabetKey(
+                label = VariantKeyLabel(text = "z", textInCapsLock = "Z"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onAction(InputMethodAction.SendComposableKey("z")) })
-            AlphabetKey(label = VariantKeyLabel(text = "x", textInCapsLock = "X"),
+                onClick = { onAction(InputMethodAction.SendComposableKey("z")) },
+                swipeUpText = "*",
+                onSwipeUp = { onAction(InputMethodAction.DirectlyCommit("*")) },
+            )
+            AlphabetKey(
+                label = VariantKeyLabel(text = "x", textInCapsLock = "X"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onAction(InputMethodAction.SendComposableKey("x")) })
-            AlphabetKey(label = VariantKeyLabel(text = "c", textInCapsLock = "C"),
+                onClick = { onAction(InputMethodAction.SendComposableKey("x")) },
+                swipeUpText = "“",
+                onSwipeUp = { onAction(InputMethodAction.DirectlyCommit("“")) },
+            )
+            AlphabetKey(
+                label = VariantKeyLabel(text = "c", textInCapsLock = "C"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onAction(InputMethodAction.SendComposableKey("c")) })
-            AlphabetKey(label = VariantKeyLabel(text = "v", textInCapsLock = "V"),
+                onClick = { onAction(InputMethodAction.SendComposableKey("c")) },
+                swipeUpText = "”",
+                onSwipeUp = { onAction(InputMethodAction.DirectlyCommit("”")) },
+            )
+            AlphabetKey(
+                label = VariantKeyLabel(text = "v", textInCapsLock = "V"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onAction(InputMethodAction.SendComposableKey("v")) })
-            AlphabetKey(label = VariantKeyLabel(text = "b", textInCapsLock = "B"),
+                onClick = { onAction(InputMethodAction.SendComposableKey("v")) },
+                swipeUpText = "：",
+                onSwipeUp = { onAction(InputMethodAction.DirectlyCommit("：")) },
+            )
+            AlphabetKey(
+                label = VariantKeyLabel(text = "b", textInCapsLock = "B"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onAction(InputMethodAction.SendComposableKey("b")) })
-            AlphabetKey(label = VariantKeyLabel(text = "n", textInCapsLock = "N"),
+                onClick = { onAction(InputMethodAction.SendComposableKey("b")) },
+                swipeUpText = "；",
+                onSwipeUp = { onAction(InputMethodAction.DirectlyCommit("；")) },
+            )
+            AlphabetKey(
+                label = VariantKeyLabel(text = "n", textInCapsLock = "N"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onAction(InputMethodAction.SendComposableKey("n")) })
-            AlphabetKey(label = VariantKeyLabel(text = "m", textInCapsLock = "M"),
+                onClick = { onAction(InputMethodAction.SendComposableKey("n")) },
+                swipeUpText = "！",
+                onSwipeUp = { onAction(InputMethodAction.DirectlyCommit("！")) },
+            )
+            AlphabetKey(
+                label = VariantKeyLabel(text = "m", textInCapsLock = "M"),
                 isAsciiMode = isAsciiMode,
                 isCapsLockMode = isCapsLockMode,
-                onClick = { onAction(InputMethodAction.SendComposableKey("m")) })
+                onClick = { onAction(InputMethodAction.SendComposableKey("m")) },
+                swipeUpText = "？",
+                onSwipeUp = { onAction(InputMethodAction.DirectlyCommit("？")) },
+            )
             BackspaceKey(onClick = { onAction(InputMethodAction.Backspace) })
         }
         KeyboardRow {
-            LayoutSwitchKey(
-                label = "?123",
+            LayoutSwitchKey(label = "?123",
                 onClick = { onMainContentTypeChange(MainInputAreaContentType.COMMONLY_USED_SYMBOLS) })
             PunctuationKey(label = VariantKeyLabel(text = "，", textInAscii = ","),
                 isAsciiMode = isAsciiMode,

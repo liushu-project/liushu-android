@@ -18,35 +18,103 @@
 package com.elliot00.liushu.input.keyboard.key.preset
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
-import com.elliot00.liushu.input.keyboard.key.Key
 import com.elliot00.liushu.input.keyboard.key.VariantKeyLabel
+import timber.log.Timber
+import kotlin.math.abs
 
 @Composable
 fun RowScope.AlphabetKey(
-    label: VariantKeyLabel, isAsciiMode: Boolean, isCapsLockMode: Boolean, onClick: () -> Unit
+    label: VariantKeyLabel,
+    isAsciiMode: Boolean,
+    isCapsLockMode: Boolean,
+    onClick: () -> Unit,
+    swipeUpText: String,
+    onSwipeUp: (() -> Unit)? = null,
 ) {
     val text = when {
         isCapsLockMode -> label.textInCapsLock
         isAsciiMode -> label.textInAscii
         else -> label.text
     }
+    var swipeDirection by remember { mutableStateOf(SwipeDirection.IDLE) }
 
-    Key(
-        onClick = onClick, onLongClick = null, modifier = Modifier
+    Box(
+        modifier = Modifier
             .background(
-                color = MaterialTheme.colorScheme.surface, shape = MaterialTheme.shapes.medium
+                color = MaterialTheme.colorScheme.surface,
+                shape = MaterialTheme.shapes.medium
             )
             .clip(shape = MaterialTheme.shapes.medium)
             .weight(1f)
+            .fillMaxHeight()
+            .pointerInput(Unit) {
+                detectTapGestures { onClick() }
+            }
+            .pointerInput(Unit) {
+                detectDragGestures(onDrag = { change, dragAmount ->
+                    val (x, y) = dragAmount
+                    if (x == 0f && y == 0f) {
+                        return@detectDragGestures
+                    }
+
+                    change.consume()
+                    if (abs(x) > abs(y)) {
+                        when {
+                            x > 0 -> {
+                                swipeDirection = SwipeDirection.RIGHT
+                            }
+
+                            x < 0 -> {
+                                swipeDirection = SwipeDirection.LEFT
+                            }
+                        }
+                    } else {
+                        when {
+                            y > 0 -> {
+                                swipeDirection = SwipeDirection.DOWN
+                            }
+
+                            y < 0 -> {
+                                swipeDirection = SwipeDirection.UP
+                            }
+                        }
+                    }
+                }, onDragEnd = {
+                    when (swipeDirection) {
+                        SwipeDirection.UP -> {
+                            Timber.d("swipe up")
+                            onSwipeUp?.let { it() }
+                        }
+
+                        else -> {
+                            Timber.d("other")
+                        }
+
+                    }
+                    swipeDirection = SwipeDirection.IDLE
+                })
+            },
+        contentAlignment = Alignment.Center
     ) {
+        Text(text = swipeUpText, fontSize = 8.sp, modifier = Modifier.align(Alignment.TopEnd))
         Text(
             text = text,
             color = MaterialTheme.colorScheme.onSurface,
@@ -54,4 +122,8 @@ fun RowScope.AlphabetKey(
             textAlign = TextAlign.Center
         )
     }
+}
+
+enum class SwipeDirection {
+    RIGHT, LEFT, DOWN, UP, IDLE
 }
