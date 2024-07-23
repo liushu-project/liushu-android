@@ -30,11 +30,13 @@ import com.elliot00.liushu.input.keyboard.key.BaseKey
 
 @Composable
 fun RowScope.ShiftKey(
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    onLongClick: () -> Unit,
 ) {
 
     BaseKey(
         onClick = onClick,
+        onLongClick = onLongClick,
         modifier = Modifier
             .background(
                 color = MaterialTheme.colorScheme.secondaryContainer,
@@ -46,7 +48,6 @@ fun RowScope.ShiftKey(
         Icon(
             painter = painterResource(id = R.drawable.ic_capslock_none),
             contentDescription = "Shift key",
-            tint = MaterialTheme.colorScheme.onSecondaryContainer
         )
     }
 }
